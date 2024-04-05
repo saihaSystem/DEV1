@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </Console>
+        <!-- Query Loggers 쿼리 과정(파라미터까지) -->
+        <appender name="console-dblog" class="org.apache.log4j.ConsoleAppender">
+            <PatternLayout pattern="%d %5p %m%n" />
+        </appender>
+    </Appenders>
+
+    <Loggers>
+        <!-- Spring -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger
+                name="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+                level="ERROR" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="org.hotswap" level="OFF" additivity="false">
+        </Logger>
+
+        <Logger name="jdbc.connection" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="jdbc.sqlonly" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="jdbc.sqltiming" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="jdbc.audit" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="jdbc.resultset" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Logger name="jdbc.resultsettable" level="OFF" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="console"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>

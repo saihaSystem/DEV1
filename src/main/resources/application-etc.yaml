@@ -1,0 +1,81 @@
+external:
+  app:
+    android-keyhash: 'K7QFUulJoXKrXNqzjAtH7U7t1Q4='
+
+mybatis:
+  type-aliases-package: com.saiha.saihaWeb.dto
+  mapper-locations: 'classpath:mybatis/mapper/**/**.xml'
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  config:
+    activate:
+      on-profile: etc
+  multipart:
+    max-file-size:128kb
+    max-request-size:128KB
+  http:
+    multipart:
+      enabled:true
+  thymeleaf:
+    cache: 'false'
+
+  datasource:
+    username: 'WEB2'
+    password: 'saiha'
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:oracle:thin:@192.168.0.201:4521/xe
+
+jwt:
+  token:
+    expiration: 864000000
+    refresh: 864000000
+    secret: hfgry463hf746hf573ydh475fhy57392a23a
+    prefix: Bearer
+    header: Authorization
+
+
+springpri: ''
+
+server:
+  error:
+    path: '/error'
+  servlet:
+    encoding:
+      force: 'true'
+      charset: utf-8
+  compression:
+    enabled: 'true'
+  port: '8080'
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: DEBUG
+      sqlonly: trace
+      sqltiming: OFF
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+---
+
+
+
+

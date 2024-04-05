@@ -1,0 +1,10 @@
+external:
+  app:
+    androidKeyHash: 'K7QFUulJoXKrXNqzjAtH7U7t1Q4='
+
+spring:
+  profiles:
+    active: etc
+  devtools:
+    livereload:
+      enabled: true

@@ -1,0 +1,92 @@
+external:
+  app:
+    androidKeyHash: 'K7QFUulJoXKrXNqzjAtH7U7t1Q4='
+
+mybatis:
+  type-aliases-package: com.saiha.saihaWeb.dto
+  mapper-locations: 'classpath:mybatis/mapper/**/**.xml'
+  configuration:
+    mapUnderscoreToCamelCase: true
+spring:
+
+
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  config:
+    activate:
+      on-profile: etc
+  thymeleaf:
+    cache: 'false'
+
+  datasource:
+    password: 'WEB2'
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: 'saiha!'
+    url: jdbc:log4jdbc:oracle:thin:@192.168.200.21:1521/SAIHA
+
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        format_sql: true
+    defer-datasource-initialization: true
+
+jwt:
+  token:
+    expiration: 864000000
+    refresh: 864000000
+    secret: hfgry463hf746hf573ydh475fhy57392a23a
+    prefix: Bearer
+    header: Authorization
+
+
+springpri: ''
+
+
+
+
+server:
+  error:
+    path: '/error'
+  servlet:
+    encoding:
+      force: 'true'
+      charset: utf-8
+  compression:
+    enabled: 'true'
+  port: '8081'
+
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: OFF
+      sqlonly: trace
+      sqltiming: OFF
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+---
+
+
+
+

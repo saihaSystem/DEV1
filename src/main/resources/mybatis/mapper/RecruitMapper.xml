@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.RecruitMapper">
+
+    <insert id="sqlregisterAdt" parameterType="com.saiha.saihaWeb.dto.RecruitDTO">
+        INSERT INTO JOINCOMPANY(
+            USER_NM,
+            CHI_NM,
+            ENG_NM,
+            ZIPCODE,
+            ADDRESS,
+            JUMIN_NO,
+            TEL_NO1,
+            TEL_NO2,
+            EMAIL,
+            SUPPORT_CODE,
+            MIDDLESCHOOL,
+            HIGHSCHOOL,
+            UNIVERSITY,
+            GRADSCHOOL,
+            PHOTO_FILE,
+            CAREERITEM,
+            ETC,
+            INTRODUCTION,
+            SAVE_PATH,
+            REGISTYMD )
+        VALUES(
+            #{USER_NM},
+            #{CHI_NM},
+            #{ENG_NM},
+            #{ZIPCODE},
+            #{ADDRESS},
+            #{JUMIN_NO},
+            #{TEL_NO1},
+            #{TEL_NO2},
+            #{EMAIL},
+            #{SUPPORT_CODE},
+            #{MIDDLESCHOOL},
+            #{HIGHSCHOOL},
+            #{UNIVERSITY},
+            #{GRADSCHOOL},
+            #{PHOTO_FILE},
+            #{CAREERITEM},
+            #{ETC},
+            #{INTRODUCTION},
+            #{SAVE_PATH},
+            TO_CHAR( SYSDATE , 'YYYY-MM-DD' ) )
+    </insert>
+
+    <insert id="sqlfileAdtAdd" parameterType="com.saiha.saihaWeb.dto.RecruitDTO">
+
+    INSERT INTO JOINFILE
+    ( JOIN_GUBUN, JUMIN_NO, FILE_ID, FILE_NAME, FILE_PATH, FILE_SIZE)
+    VALUES
+    ( #{JOIN_GUBUN}, #{JUMIN_NO}, #{FILE_ID}, #{FILE_NAME}, '/C:\사진', #{FILE_SIZE})
+    </insert>
+
+
+</mapper>

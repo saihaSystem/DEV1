@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.BoardMapper">
+
+    <select id="selectNoticeBoard" resultType="BoardDTO" parameterType="map">
+        <![CDATA[
+            SELECT
+                BRD_GUBUN,
+                BRD_NO,
+                BRD_DEPTH,
+                REPLE_STEP,
+                ID,
+                NAME,
+                TITLE,
+                MAIL,
+                CONTENTS,
+                HAS_FILE_YN,
+                PWD,
+                VIEWCNT,REGIST_YMD,
+                DECODE(EDITYMD,NULL,REGIST_YMD,EDITYMD) EDITYMD,
+                DELYN as DEL_YN,
+                N,
+                CASE WHEN (SYSDATE - TO_DATE(DECODE(EDITYMD,NULL,REGIST_YMD,EDITYMD))) <= 15 THEN '1' ELSE '0' END RECENT_FLAG
+            FROM (
+                SELECT BRD_GUBUN, BRD_NO, BRD_DEPTH, REPLE_STEP, ID
+                    , NAME, TITLE, MAIL, CONTENTS, HAS_FILE_YN
+                    , PWD, VIEWCNT, REGIST_YMD, EDITYMD, DELYN
+                    , ROWNUM N
+                FROM (
+                    SELECT BRD_GUBUN, BRD_NO, BRD_DEPTH, REPLE_STEP, ID
+                        , NAME, TITLE, MAIL, CONTENTS, HAS_FILE_YN
+                        , PWD, VIEWCNT, REGIST_YMD, EDITYMD, DELYN
+                    FROM
+                        BOARD
+                    WHERE
+                        BRD_GUBUN = #{brdGubun}
+                    AND
+                        DELYN <> 'Y'
+                    AND
+                        BRD_NO NOT IN (
+                            SELECT
+                                S1.BRD_NO
+                            FROM
+                                BOARD S1
+                            WHERE
+                                S1.BRD_GUBUN= #{brdGubun}
+                            AND
+                                S1.BRD_DEPTH= 0
+                            AND
+                                S1.DELYN = 'Y'
+                        )
+                    ORDER BY
+                        REGIST_YMD desc ,
+                        BRD_NO desc ,
+                        REPLE_STEP asc
+                )
+            )
+            WHERE
+                N BETWEEN (((1 - 1) * 10)+1) and (1 * 10)
+        ]]>
+    </select>
+
+</mapper>
