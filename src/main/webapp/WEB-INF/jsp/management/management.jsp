@@ -2,6 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.saiha.saihaWeb.dto.*" %>
+<%
+
+	//String ifile_id 	= Config.getProperty("SPS_SYS_ID_HU_SYST");
+	//String ifile_tnm 	= Config.getProperty("SPS_IFILE_HU_SYST02");
+	//String ani 	  		= StringUtils.defaultString(request.getParameter("ani"),"");	// 타이틀이미지
+	//String imgNo		= StringUtils.defaultString(request.getParameter("imgNo"),""); // 이미지 번호
+	//int cPage 	  		= Integer.parseInt(StringUtils.defaultString(request.getParameter("cPage"),"1"));	// 페이지번호
+
+	// 변수 선언
+	String mode = "U";  // I : 입력, U : 수정
+
+	List<Map<String,Object>> vl = (List<Map<String,Object>>)request.getAttribute("ManagemantDTO");
+%>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="/js/management.js"></script>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -24,6 +41,31 @@
     <link rel="stylesheet" href="/js/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css">
   </head>
   <body>
+
+  <style>
+  .div1 {
+     margin-top:50px;
+     margin-bottom:50px;
+     width: 100%;
+  }
+  .tbl_button{
+     margin-bottom:250px;
+     text-align: right;
+  }
+  .staff_tab{
+     text-align: center;
+     height: 100px;
+     font-size: 30px;
+     word-spacing:30px;
+  }
+   form {
+     margin:0; padding:0;
+   }
+   li {
+       display: inline-block;
+   }
+  </style>
+
   <header class="header">
             <div class="head" id="head">
               <div class="logo"><a href="/"><img src="/images/main_logo.png" /></a></div>
@@ -119,14 +161,14 @@
               </div>
             </div>
           </header>
-          <main>
+         <main>
     <form name="fm" id="fm" method="post">
     <input type="hidden" name="SID">
     <input type="hidden" name="tmp" value="FIRST">
 
-    	<div class="tbl_form_wrap">
+    	<div  class="div1" style="display: block;">
     		<table class="tbl_form" border="1" cellspacing="0" summary="고객문의">
-    	<div class="staff_tab">
+    	<div class="staff_tab" >
     		<ul>
     			<li><a href="#"" class="on">기본</a></li>
     			<li><a href="javascript:msg();">학력</a></li>
@@ -143,17 +185,17 @@
     		</colgroup>
     		<tr>
     			<th>사번</th>
-    			<td><label><input class="input01" type="text" name="sabun" maxlength="8" size="10" value=""></label></td>
+    			<td><label><input class="input01" type="text" name="sabun" maxlength="8" size="10" value="<%=vl.get(0).get("ID")%>"></label></td>
     			<th>보직일자</th>
-    			<td><label><input class="input01" type="text" id="bogic_date" name="bogic_date" maxlength="10" size="10" value="" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="bogic_date" name="bogic_date" maxlength="10" size="10" value="<%=vl.get(0).get("POSITION_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="" alt="보직일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('bogic_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<tr>
     			<th>이름</th>
-    			<td colspan=3><label><input class="input01" type="text" name="kor_nm" maxlength="8" size="10" value="" >
+    			<td colspan=3><label><input class="input01" type="text" name="kor_nm" maxlength="8" size="10" value="<%=vl.get(0).get("KOR_NAME")%>" >
     				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    				<span class="info_msg">( 영문 :<input class="input01" type="text" name="eng_nm" maxlength="20" size="20" value="" >&nbsp;&nbsp;한자 : <input class="input01" type="text" name="chi_nm" maxlength="8" size="10" value="" >)</span></label>
+    				<span class="info_msg">( 영문 :<input class="input01" type="text" name="eng_nm" maxlength="20" size="20" value="<%=vl.get(0).get("ENG_NAME")%>" >&nbsp;&nbsp;한자 : <input class="input01" type="text" name="chi_nm" maxlength="8" size="10" value="<%=vl.get(0).get("CHI_NAME")%>" >)</span></label>
     			</td>
     		</tr>
     		<tr>
@@ -167,7 +209,7 @@
     			<td><label><input class="input01" type="hidden" name="SID1" maxlength="6" size="6" value=""  onKeyUp="checkNum(this)" > -
     				<input class="input01" type="hidden" name="SID2" maxlength="7" size="7" value=""  onKeyUp="checkNum(this)" onBlur="checkSID()"></label></td>
     			<th>생년월일</th>
-    			<td><label><input class="input01" type="text" id="birth_date" name="birth_date" maxlength="10" size="10" value="" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="birth_date" name="birth_date" maxlength="10" size="10" value="<%=vl.get(0).get("BIRTH_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="" alt="생년월일" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('birth_date'));" style="cursor: pointer;" />
     				(<input type="radio" name="lunar" value="Y" style="position:relative;top:2px;" checked> <span class="info_msg">양</span>
     				<input type="radio" name="lunar" value="N" style="position:relative;top:2px;" > <span class="info_msg">음</span>)
@@ -188,76 +230,76 @@
     		</tr>
     		<tr>
     			<th>입사일자</th>
-    			<td><label><input class="input01" type="text" id="in_date" name="in_date"  maxlength="10" size="10" value="" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="in_date" name="in_date"  maxlength="10" size="10" value="<%=vl.get(0).get("JOIN_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="" alt="입사일자"  border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('in_date'));" style="cursor: pointer;" /></label>
                 </td>
     			<th>퇴사일자</th>
-    			<td><label><input class="input01" type="text" id="out_date" name="out_date"  maxlength="10" size="10" value="" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="out_date" name="out_date"  maxlength="10" size="10" value="<%=vl.get(0).get("LEAVE_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="" alt="퇴사일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('out_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<tr>
     			<th>부서명</th>
     			<td>
-    				<label><select name='part' class="input01" style="height:22px" >
-
+    				<label><select name='part' class="part" id= "<%=vl.get(0).get("DEPT_CODE")%>" style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
                 </td>
     			<th>팀명</th>
     			<td>
-    				<label><select name='team' class="input01" style="height:22px" >
-
+    				<label><select name='team' class="team" id= "<%=vl.get(0).get("TEAM_CODE")%>"  style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
                 </td>
     		</tr>
     		<tr>
     			<th>직급</th>
     			<td>
-    				<label><select name='level' class="input01" style="height:22px" >
-
+    				<label><select name='level' class="level" id= "<%=vl.get(0).get("POSITION_CODE")%>" style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
                 </td>
     			<th>직위</th>
     			<td>
-    				<label><select name='grade' class="input01" style="height:22px" >
-
+    				<label><select name='grade' class="grade" id= "<%=vl.get(0).get("ONE_DUTY_CODE")%>" style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
                 </td>
     		</tr>
     		<tr>
     			<th>채용구분</th>
     			<td>
-    				<label><select name='recruit' class="input01" style="height:22px" >
-
+    				<label><select name='recruit' class="recruit" id= "<%=vl.get(0).get("EMPLOYMENT_CODE")%>" style="height:22px" >
+                                <option>-선택-</option>
     			</select></label>
                 </td>
     			<th>계약구분</th>
     			<td>
-    				<label><select name="contract" class="input01" style="height:22px" >
-
+    				<label><select name="contract" class="contract" id= "<%=vl.get(0).get("CONTRACT_WORK_YN")%>" style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
     			</td>
     		</tr>
     		<tr>
     			<th>전화번호</th>
-    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="" > - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="" >
+    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="<%=vl.get(0).get("NUM_TEL")%>" > - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="" >
     				<input type="hidden" name="num_tel"></label>
     			</td>
     			<th>핸드폰번호</th>
-    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="" >
+    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="<%=vl.get(0).get("HP_TEL")%>" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="" >
     				<input type="hidden" name="hp_tel"></label>
     			</td>
     		</tr>
     		<tr>
     			<th>여권번호</th>
-    			<td><label><input class="input01" type="text" name="passport_no" maxlength="20" size="22" value="" ></label></td>
+    			<td><label><input class="input01" type="text" name="passport_no" maxlength="20" size="22" value="<%=vl.get(0).get("PASSPORT_NO")%>" ></label></td>
     			<th>이메일</th>
-    			<td><label><input class="input01" type="text" name="email" maxlength="30" size="31" value="" ></label></td>
+    			<td><label><input class="input01" type="text" name="email" maxlength="30" size="31" value="<%=vl.get(0).get("EMAIL")%>" ></label></td>
     		</tr>
     		<tr>
     			<th>현 주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" readonly />
+    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="<%=vl.get(0).get("ADDRESS")%>" readonly />
     				<img src="" alt="현주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('0')" style="cursor:hand" /><br />
     				<input value="" class="input01"  maxlength="45" size="70" name="c_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
 
@@ -266,7 +308,7 @@
     		<tr>
     			<th>본적</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="<%=vl.get(0).get("FAMILY_REGISTER_ADDRESS")%>" readonly />
     				<img src="" width="60" alt="본적" height="18" name="ZipCodeOpen" onClick="ZipWindow('1')" style="cursor:hand" /><br />
     				<input value="" class="input01"  maxlength="45" size="70" name="family_register_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
 
@@ -275,7 +317,7 @@
     		<tr>
     			<th>주민주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="<%=vl.get(0).get("JUMIN_ADDRESS")%>" readonly />
     				<img src="" alt="주민주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('2')" style="cursor:hand" /><br />
     				<input value="" class="input01"  maxlength="45" size="70" name="jumin_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
 
@@ -284,14 +326,14 @@
     		<tr>
     			<th>권한등급</th>
     			<td>
-    				<label><select name='access' class="input01" style="height:22px" >
-
+    				<label><select name='access' class="access" id= "<%=vl.get(0).get("GRADE_CODE")%>" style="height:22px" >
+                                <option>-선택-</option>
     				</select></label>
     			</td>
     			<th>관리여부</th>
     			<td>
-    				<label><input type="radio" name="useYN" value="Y" style="position:relative;top:2px;" checked="checked" /> 예</label>
-    	            <label><input type="radio" name="useYN" value="N" style="position:relative;top:2px;" /> 아니오</label>
+    				<label><input type="radio" name="useYN" value="Y"  checked="checked" /> 예</label>
+    	            <label><input type="radio" name="useYN" value="N"  /> 아니오</label>
     			</td>
     		</tr>
     	</table>
@@ -311,7 +353,7 @@
       <!-- //button -->
     </form>
     </main>
-    <footer>
+    <footer >
       <div class="address">
         <span>전라남도 나주시 도민길 46(빛가람동 892-12) 새하빌딩<br></span>
         <span>Copyright(c) 2014 SAIHA Information System Co., LTD<br>All Rights Reserved</span>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.ManagementMapper">
+    <select id="select_contents_data" resultType="map" parameterType="String">
+        <![CDATA[
+             SELECT  /* Insa_Base.java.getBaseData2(String) */
+                     T1.JUMIN_NO, T1.ID, T1.KOR_NAME, T1.CHI_NAME, T1.ENG_NAME
+                   , T1.JOIN_YMD, T1.LEAVE_YMD
+                   , T1.ZIPCODE, T1.ADDRESS, T1.FAMILY_REGISTER_ZIPCODE
+                   , T1.FAMILY_REGISTER_ADDRESS, T1.JUMIN_ZIPCODE, T1.JUMIN_ADDRESS, T1.POSITION_YMD, T1.DEPT_CODE
+                   , T1.TEAM_CODE, T1.POSITION_CODE, T1.ONE_DUTY_CODE, T1.EMAIL, T1.NUM_TEL
+                   , T1.HP_TEL, T1.PASSPORT_NO, T1.CONTRACT_WORK_YN, T1.EMPLOYMENT_CODE, T1.BIRTH_YMD
+                   , T1.SOLAR_CALENDAR_YN, T2.PWD, T2.GRADE_CODE, T2.CONTROL_YN
+                   , SubStr(T1.JUMIN_NO,1,6) SID1, SubStr(T1.JUMIN_NO,7,7) SID2
+                   , T3.SAVE_FILE_NM, T3.FILE_NM, T3.SAVE_PATH, T3.FILE_SIZE
+             FROM    ( SELECT JUMIN_NO, SAVE_FILE_NM, FILE_NM, SAVE_PATH, FILE_SIZE FROM informationfile WHERE GUBUN = 'INSA') T3
+                     , use T2, information T1
+             WHERE T1.ID = T2.ID
+             AND T1.JUMIN_NO = T3.JUMIN_NO(+)
+             AND T1.ID = #{UserID}
+        ]]>
+    </select>
+</mapper>

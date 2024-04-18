@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.CodeUtilMapper">
+    <select id="getCodeList" resultType="map" parameterType="String">
+        <![CDATA[
+        SELECT code_gubun As cd_knd, code As cd, code_nm As cd_nm
+          FROM COMMON C1, code C2
+         WHERE C1.code_gubun = C2.gubun
+           AND C2.use_yn = 'Y'
+           AND C1.use_yn = 'Y'
+           AND C1.code_gubun = #{cd_knd}
+         ORDER BY TO_NUMBER(NVL(ALI_ODR,'999'))
+        ]]>
+    </select>
+</mapper>
