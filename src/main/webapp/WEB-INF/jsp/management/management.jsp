@@ -234,10 +234,18 @@
     				<img src="" alt="입사일자"  border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('in_date'));" style="cursor: pointer;" /></label>
                 </td>
     			<th>퇴사일자</th>
-    			<td><label><input class="input01" type="text" id="out_date" name="out_date"  maxlength="10" size="10" value="<%=vl.get(0).get("LEAVE_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="out_date" name="out_date"  maxlength="10" size="10"
+    			     value="${empty ManagemantDTO.get(0).LEAVE_YMD ? '' : ManagemantDTO.get(0).LEAVE_YMD}"
+    			     readonly
+    			     onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="" alt="퇴사일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('out_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
+    		<!--    			     <% if(vl.get(0).get("LEAVE_YMD") != null ) {%>
+                			        value="<%=vl.get(0).get("LEAVE_YMD")%>"
+                			     <% } else { %>
+                			        value=""
+                			     <% } %> -->
     		<tr>
     			<th>부서명</th>
     			<td>
@@ -282,51 +290,53 @@
     		</tr>
     		<tr>
     			<th>전화번호</th>
-    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="<%=vl.get(0).get("NUM_TEL")%>" > - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="" >
+    			<c:set var="NUM_TEL" value="${fn:split(ManagemantDTO.get(0).NUM_TEL,'-')}" />
+    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="${NUM_TEL[0]}" > - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="${NUM_TEL[1]}" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="${NUM_TEL[2]}" >
     				<input type="hidden" name="num_tel"></label>
     			</td>
     			<th>핸드폰번호</th>
-    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="<%=vl.get(0).get("HP_TEL")%>" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="" >
+    			<c:set var="HP_TEL" value="${fn:split(ManagemantDTO.get(0).HP_TEL,'-')}" />
+    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="${HP_TEL[0]}" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="${HP_TEL[1]}" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="${HP_TEL[2]}" >
     				<input type="hidden" name="hp_tel"></label>
     			</td>
     		</tr>
     		<tr>
     			<th>여권번호</th>
-    			<td><label><input class="input01" type="text" name="passport_no" maxlength="20" size="22" value="<%=vl.get(0).get("PASSPORT_NO")%>" ></label></td>
+    			<td><label><input class="input01" type="text" name="passport_no" maxlength="20" size="22" value="${empty ManagemantDTO.get(0).PASSPORT_NO ? '' : ManagemantDTO.get(0).PASSPORT_NO}" ></label></td>
     			<th>이메일</th>
-    			<td><label><input class="input01" type="text" name="email" maxlength="30" size="31" value="<%=vl.get(0).get("EMAIL")%>" ></label></td>
+    			<td><label><input class="input01" type="text" name="email" maxlength="30" size="31" value="${empty ManagemantDTO.get(0).EMAIL ? '' : ManagemantDTO.get(0).EMAIL}" ></label></td>
     		</tr>
     		<tr>
     			<th>현 주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="<%=vl.get(0).get("ADDRESS")%>" readonly />
+    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="<%=vl.get(0).get("ZIPCODE")%>" readonly />
     				<img src="" alt="현주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('0')" style="cursor:hand" /><br />
-    				<input value="" class="input01"  maxlength="45" size="70" name="c_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="<%=vl.get(0).get("ADDRESS")%>" class="input01"  maxlength="45" size="70" name="c_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>본적</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="<%=vl.get(0).get("FAMILY_REGISTER_ADDRESS")%>" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="<%=vl.get(0).get("FAMILY_REGISTER_ZIPCODE")%>" readonly />
     				<img src="" width="60" alt="본적" height="18" name="ZipCodeOpen" onClick="ZipWindow('1')" style="cursor:hand" /><br />
-    				<input value="" class="input01"  maxlength="45" size="70" name="family_register_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="<%=vl.get(0).get("FAMILY_REGISTER_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="family_register_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>주민주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="<%=vl.get(0).get("JUMIN_ADDRESS")%>" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="<%=vl.get(0).get("JUMIN_ZIPCODE")%>" readonly />
     				<img src="" alt="주민주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('2')" style="cursor:hand" /><br />
-    				<input value="" class="input01"  maxlength="45" size="70" name="jumin_Address" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="<%=vl.get(0).get("JUMIN_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="jumin_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>권한등급</th>
     			<td>
-    				<label><select name='access' class="access" id= "<%=vl.get(0).get("GRADE_CODE")%>" style="height:22px" >
+    				<label><select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" >
                                 <option>-선택-</option>
     				</select></label>
     			</td>
