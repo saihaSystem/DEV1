@@ -21,4 +21,159 @@
              AND T1.ID = #{UserID}
         ]]>
     </select>
+
+
+    <select id="insaCount" resultType="int" parameterType="map">
+        SELECT count(*) count
+            FROM ( SELECT ID,
+            NAME,
+            JUMIN_NO,
+            SOSOK,
+            POSITION,
+            TEAM_NM,
+            ROWNUM N
+            FROM ( SELECT T1.ID,
+            T1.KOR_NAME NAME,
+            T1.JUMIN_NO,
+            T1.LEAVE_YMD,
+            B.CODE_NM SOSOK,
+            C.CODE_NM POSITION,
+            D.CODE_NM TEAM_NM
+                FROM ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='PT1') B,
+                ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='GD1') C,
+                ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='TE1') D,
+                USE T2,
+                INFORMATION T1
+                    WHERE T1.DEPT_CODE = B.CODE(+)
+                    AND T1.ONE_DUTY_CODE = C.CODE(+)
+                    AND T1.TEAM_CODE = D.CODE(+)
+                    AND T2.ID = T1.ID
+
+                    <if test="UserID != null and UserID == '1000'" >
+                        AND T1.ID = #{UserID}
+                    </if>
+
+                    <if test="searchSelect0 == null or (searchSelect0 != null and searchSelect0 == 'work')">
+                        AND T1.LEAVE_YMD is NULL
+                    </if>
+
+                    <if test="searchSelect0 != null and searchSelect0 == 'fire'">
+                        AND T1.LEAVE_YMD is NOT NULL
+                    </if>
+
+                    <if test="searchTxt1 != null and searchTxt1 != ''">
+                        <choose>
+                            <when test="searchSelect1 == 'name'">
+                                AND T1.KOR_NAME like '%'||#{searchTxt1}||'%'
+                            </when>
+                            <when test="searchSelect1 == 'sabun'">
+                                AND T1.ID like '%'||#{searchTxt1}||'%'
+                            </when>
+                            <when test="searchSelect1 == 'jubun'">
+                                AND T1.JUMIN_NO like '%'||#{searchTxt1}||'%'
+                            </when>
+                        </choose>
+                    </if>
+
+                    <if test="searchTxt2 != null and searchTxt2 != ''">
+                        <choose>
+                            <when test="searchSelect2 == 'part'">
+                                AND B.CODE_NM like '%'||#{searchTxt2}||'%'
+                            </when>
+                            <when test="searchSelect2 == 'posi'">
+                                AND C.CODE_NM like '%'||#{searchTxt2}||'%'
+                            </when>
+                            <when test="searchSelect2 == 'team'">
+                                AND D.CODE_NM like '%'||#{searchTxt2}||'%'
+                            </when>
+                        </choose>
+                    </if>
+                ORDER BY NAME asc, ID asc
+                 )
+            )
+
+
+
+
+    </select>
+
+    <select id="selectInsa" resultType="ManagementDTO" parameterType="map">
+        SELECT
+            ID,
+            NAME,
+            JUMIN_NO,
+            SubStr(JUMIN_NO2,1,6)||'-'||'*******' JUMIN_NO2,
+            SOSOK,
+            POSITION,
+            TEAM_NM,
+            N BRD_NO
+                FROM ( SELECT ID,
+                NAME,
+                JUMIN_NO,
+                SOSOK,
+                POSITION,
+                TEAM_NM,
+                ROWNUM N,
+                JUMIN_NO2
+                    FROM ( SELECT T1.ID,
+                    T1.KOR_NAME NAME,
+                    T1.JUMIN_NO,
+                    T1.LEAVE_YMD,
+                    B.CODE_NM SOSOK,
+                    C.CODE_NM POSITION,
+                    D.CODE_NM TEAM_NM,
+                    NVL(T1.JUMIN_NO2,REPLACE(SUBSTR(T1.BIRTH_YMD,3),'-','')) JUMIN_NO2
+                        FROM ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='PT1') B,
+                        ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='GD1') C,
+                        ( SELECT CODE, CODE_NM FROM COMMON WHERE CODE_GUBUN ='TE1') D,
+                        USE T2, INFORMATION T1
+                            WHERE T1.DEPT_CODE = B.CODE(+)
+                            AND T1.ONE_DUTY_CODE = C.CODE(+)
+                            AND T1.TEAM_CODE = D.CODE(+)
+                            AND T2.ID = T1.ID
+
+                            <if test="UserID != null and UserID == '1000'" >
+                                AND T1.ID = #{UserID}
+                            </if>
+
+                            <if test="searchSelect0 == null or (searchSelect0 != null and searchSelect0 == 'work')">
+                                AND T1.LEAVE_YMD is NULL
+                            </if>
+
+                            <if test="searchSelect0 != null and searchSelect0 == 'fire'">
+                                AND T1.LEAVE_YMD is NOT NULL
+                            </if>
+
+                            <if test="searchTxt1 != null and searchTxt1 != ''">
+                                <choose>
+                                    <when test="searchSelect1 == 'name'">
+                                        AND T1.KOR_NAME like '%'||#{searchTxt1}||'%'
+                                    </when>
+                                    <when test="searchSelect1 == 'sabun'">
+                                        AND T1.ID like '%'||#{searchTxt1}||'%'
+                                    </when>
+                                    <when test="searchSelect1 == 'jubun'">
+                                        AND T1.JUMIN_NO like '%'||#{searchTxt1}||'%'
+                                    </when>
+                                </choose>
+                            </if>
+
+                            <if test="searchTxt2 != null and searchTxt2 != ''">
+                                <choose>
+                                    <when test="searchSelect2 == 'part'">
+                                        AND B.CODE_NM like '%'||#{searchTxt2}||'%'
+                                    </when>
+                                    <when test="searchSelect2 == 'posi'">
+                                        AND C.CODE_NM like '%'||#{searchTxt2}||'%'
+                                    </when>
+                                    <when test="searchSelect2 == 'team'">
+                                        AND D.CODE_NM like '%'||#{searchTxt2}||'%'
+                                    </when>
+                                </choose>
+                            </if>
+                        ORDER BY NAME asc, ID asc
+                    )
+                )
+        WHERE N BETWEEN ((#{pagenum} - 1) *  (#{pagemax}) +1) and #{pagenum} * #{pagemax}
+    </select>
 </mapper>

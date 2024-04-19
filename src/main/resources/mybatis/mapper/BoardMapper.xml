@@ -38,18 +38,7 @@
                     AND
                         DELYN <> 'Y'
                     AND
-                        BRD_NO NOT IN (
-                            SELECT
-                                S1.BRD_NO
-                            FROM
-                                BOARD S1
-                            WHERE
-                                S1.BRD_GUBUN= #{brdGubun}
-                            AND
-                                S1.BRD_DEPTH= 0
-                            AND
-                                S1.DELYN = 'Y'
-                        )
+                        BRD_DEPTH= 0
                     ORDER BY
                         REGIST_YMD desc ,
                         BRD_NO desc ,
@@ -57,7 +46,23 @@
                 )
             )
             WHERE
-                N BETWEEN (((1 - 1) * 10)+1) and (1 * 10)
+                N BETWEEN (((#{page} - 1) * 5)+1) and (#{page} * 5)
+        ]]>
+    </select>
+
+
+    <select id="boardCount" resultType="int" parameterType="map">
+        <![CDATA[
+            SELECT
+                COUNT(*)
+            FROM
+                BOARD
+            WHERE
+                BRD_GUBUN = #{brdGubun}
+            AND
+                DELYN <> 'Y'
+            and
+                BRD_DEPTH= 0
         ]]>
     </select>
 

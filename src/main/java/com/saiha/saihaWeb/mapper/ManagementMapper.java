@@ -10,4 +10,7 @@ import java.util.Map;
 @Mapper
 public interface ManagementMapper {
      List<Map<String,Object>> select_contents_data(String UserID);
+
+     List<ManagementDTO> selectInsa(Map<String, Object> param);
+     int insaCount(Map<String, Object> param);
 }

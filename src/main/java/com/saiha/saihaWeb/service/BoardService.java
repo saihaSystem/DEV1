@@ -19,4 +19,11 @@ public class BoardService {
 
         return boardMapper.selectNoticeBoard(param);
     }
+
+
+
+    public int boardCount(Map<String, Object> param){
+
+        return boardMapper.boardCount(param);
+    }
 }
