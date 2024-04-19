@@ -111,7 +111,7 @@
         </header>
         <main>
           <section class="contentDefault">
-            <h1 class="subContentTitle">인사관리</h1>
+            <h1 class="subContentTitle">인사관리22</h1>
             <h3 class="subContentTitleDesc">
             </h3>
             <div class="subContent">
