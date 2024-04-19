@@ -65,3 +65,8 @@ function getSelect(value,info){
       }
     });
 }
+
+function newCarlanderArrayById(obj) {
+
+	new CalendarFrame.Calendar(obj);
+}

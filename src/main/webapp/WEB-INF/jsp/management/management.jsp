@@ -188,7 +188,7 @@
     			<td><label><input class="input01" type="text" name="sabun" maxlength="8" size="10" value="<%=vl.get(0).get("ID")%>"></label></td>
     			<th>보직일자</th>
     			<td><label><input class="input01" type="text" id="bogic_date" name="bogic_date" maxlength="10" size="10" value="<%=vl.get(0).get("POSITION_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
-    				<img src="" alt="보직일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('bogic_date'));" style="cursor: pointer;" /></label>
+    				<img src="/images/Calendar.gif" alt="보직일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('bogic_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<tr>
@@ -210,35 +210,38 @@
     				<input class="input01" type="hidden" name="SID2" maxlength="7" size="7" value=""  onKeyUp="checkNum(this)" onBlur="checkSID()"></label></td>
     			<th>생년월일</th>
     			<td><label><input class="input01" type="text" id="birth_date" name="birth_date" maxlength="10" size="10" value="<%=vl.get(0).get("BIRTH_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
-    				<img src="" alt="생년월일" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('birth_date'));" style="cursor: pointer;" />
+    				<img src="/images/Calendar.gif" alt="생년월일" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('birth_date'));" style="cursor: pointer;" />
     				(<input type="radio" name="lunar" value="Y" style="position:relative;top:2px;" checked> <span class="info_msg">양</span>
     				<input type="radio" name="lunar" value="N" style="position:relative;top:2px;" > <span class="info_msg">음</span>)
     				<input type="hidden" name="jumin_no" value=""></label>
     			</td>
     		</tr>
     		<tr><!-- 사진첨부 증명사진 -->
-    			<th>사진첨부
-    				<label><img src="" alt="사진첨부" align="absmiddle" style="cursor:hand"
-    	 				 onclick="javascript:fOpen('${pageContext.request.contextPath}/jsp/common/AttachForm.jsp?fn_nm=fm&fgubun=ADD&flag=J&adtgubun=J', 'attachPopup', 400, 300, 'resizable=no');" />
-    			     </label>
+    			<th rowspan="2">사진첨부
     			</th>
     			<td colspan="3">
-    			     <label>
-    				</label><BR>
-    				<span class="info_msg">크기 90 x h: 120 픽셀/.GIF.JPEG.JPG만</span>
+    			   <input type="text" class="input01" name="txt_file_nmADD" readonly value size="68" title="파일첨부">
     			</td>
     		</tr>
+            <tr>
+                <td colspan="3">
+                    <label>
+                        <span class="info_msg">크기 90 x h: 120 픽셀/.GIF.JPEG.JPG만</span>
+                        <img src="/images/btn_fileps.gif" alt="사진첨부"  align="absmiddle" style="cursor:hand"
+                             onclick="" /></label>
+                </td>
+            </tr>
     		<tr>
     			<th>입사일자</th>
     			<td><label><input class="input01" type="text" id="in_date" name="in_date"  maxlength="10" size="10" value="<%=vl.get(0).get("JOIN_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
-    				<img src="" alt="입사일자"  border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('in_date'));" style="cursor: pointer;" /></label>
+    				<img src="/images/Calendar.gif" alt="입사일자"  border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('in_date'));" style="cursor: pointer;" /></label>
                 </td>
     			<th>퇴사일자</th>
     			<td><label><input class="input01" type="text" id="out_date" name="out_date"  maxlength="10" size="10"
     			     value="${empty ManagemantDTO.get(0).LEAVE_YMD ? '' : ManagemantDTO.get(0).LEAVE_YMD}"
     			     readonly
     			     onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
-    				<img src="" alt="퇴사일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('out_date'));" style="cursor: pointer;" /></label>
+    				<img src="/images/Calendar.gif" alt="퇴사일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('out_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<!--    			     <% if(vl.get(0).get("LEAVE_YMD") != null ) {%>
@@ -291,12 +294,12 @@
     		<tr>
     			<th>전화번호</th>
     			<c:set var="NUM_TEL" value="${fn:split(ManagemantDTO.get(0).NUM_TEL,'-')}" />
-    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="${NUM_TEL[0]}" > - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="${NUM_TEL[1]}" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="${NUM_TEL[2]}" >
+    			<td><label><input class="input01" type="text" name="phone_no1" maxlength="3" size="3" value="${NUM_TEL[0]}" style="width: 50px;"> - <input class="input01" type="text" name="phone_no2" maxlength="4" size="4" value="${NUM_TEL[1]}" > - <input class="input01" type="text" name="phone_no3" maxlength="4" size="4" value="${NUM_TEL[2]}" >
     				<input type="hidden" name="num_tel"></label>
     			</td>
     			<th>핸드폰번호</th>
     			<c:set var="HP_TEL" value="${fn:split(ManagemantDTO.get(0).HP_TEL,'-')}" />
-    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="${HP_TEL[0]}" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="${HP_TEL[1]}" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="${HP_TEL[2]}" >
+    			<td><label><input class="input01" type="text" name="cellphone_no1" maxlength="3" size="3" value="${HP_TEL[0]}" style="width: 50px;" > - <input class="input01" type="text" name="cellphone_no2" maxlength="4" size="4" value="${HP_TEL[1]}" > - <input class="input01" type="text" name="cellphone_no3" maxlength="4" size="4" value="${HP_TEL[2]}" >
     				<input type="hidden" name="hp_tel"></label>
     			</td>
     		</tr>
@@ -310,7 +313,7 @@
     			<th>현 주소</th>
     			<td colspan="3" style="line-height:25px;">
     				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="<%=vl.get(0).get("ZIPCODE")%>" readonly />
-    				<img src="" alt="현주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('0')" style="cursor:hand" /><br />
+    				<img src="/images/bt_adress.gif" alt="현주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('0')" style="cursor:hand" /><br />
     				<input value="<%=vl.get(0).get("ADDRESS")%>" class="input01"  maxlength="45" size="70" name="c_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
@@ -319,7 +322,7 @@
     			<th>본적</th>
     			<td colspan="3" style="line-height:25px;">
     				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="<%=vl.get(0).get("FAMILY_REGISTER_ZIPCODE")%>" readonly />
-    				<img src="" width="60" alt="본적" height="18" name="ZipCodeOpen" onClick="ZipWindow('1')" style="cursor:hand" /><br />
+    				<img src="/images/bt_adress.gif" width="60" alt="본적" height="18" name="ZipCodeOpen" onClick="ZipWindow('1')" style="cursor:hand" /><br />
     				<input value="<%=vl.get(0).get("FAMILY_REGISTER_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="family_register_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
@@ -328,7 +331,7 @@
     			<th>주민주소</th>
     			<td colspan="3" style="line-height:25px;">
     				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="<%=vl.get(0).get("JUMIN_ZIPCODE")%>" readonly />
-    				<img src="" alt="주민주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('2')" style="cursor:hand" /><br />
+    				<img src="/images/bt_adress.gif" alt="주민주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('2')" style="cursor:hand" /><br />
     				<input value="<%=vl.get(0).get("JUMIN_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="jumin_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
@@ -357,8 +360,8 @@
     	</div>
     <!-- button -->
     		<p class="tbl_button">
-    			<a href="javascript:regist();"><img src="" alt="등록" /></a>
-    			<a href="javascript:history.back(-1)"><img src="" alt="취소" /></a>
+    			<a href="javascript:regist();"><img src="/images/bt_regist.gif" alt="등록" /></a>
+    			<a href="javascript:history.back(-1)"><img src="/images/bt_cancel.gif" alt="취소" /></a>
     		</p>
       <!-- //button -->
     </form>
