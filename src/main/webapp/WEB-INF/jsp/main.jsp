@@ -104,7 +104,7 @@
                   <span></span>
                 </a>
               </div> -->
-              <a class="loginBtn" href="login">로그인</a>
+              <a class="loginBtn" id="login" name="login" onClick="location.href='main/login'">로그인</a>
             </div>
           </div>
           <div class="mainVisual">
@@ -343,5 +343,6 @@
     <script src="./js/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
     <script src="./js/mainSlide.js"></script>
     <script src="./js/mainMenu.js"></script>
+    <script></script>
   </body>
 </html>

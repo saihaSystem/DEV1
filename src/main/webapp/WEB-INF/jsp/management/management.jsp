@@ -4,19 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.saiha.saihaWeb.dto.*" %>
-<%
 
-	//String ifile_id 	= Config.getProperty("SPS_SYS_ID_HU_SYST");
-	//String ifile_tnm 	= Config.getProperty("SPS_IFILE_HU_SYST02");
-	//String ani 	  		= StringUtils.defaultString(request.getParameter("ani"),"");	// 타이틀이미지
-	//String imgNo		= StringUtils.defaultString(request.getParameter("imgNo"),""); // 이미지 번호
-	//int cPage 	  		= Integer.parseInt(StringUtils.defaultString(request.getParameter("cPage"),"1"));	// 페이지번호
-
-	// 변수 선언
-	String mode = "U";  // I : 입력, U : 수정
-
-	List<Map<String,Object>> vl = (List<Map<String,Object>>)request.getAttribute("ManagemantDTO");
-%>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/js/management.js"></script>
 <html lang="ko">
@@ -161,22 +149,27 @@
               </div>
             </div>
           </header>
-         <main>
+    <main>
     <form name="fm" id="fm" method="post">
+    <div id = "page">
     <input type="hidden" name="SID">
     <input type="hidden" name="tmp" value="FIRST">
-
+        <frameset rows="50%, 50%">
+        <frame name="menu">
     	<div  class="div1" style="display: block;">
     		<table class="tbl_form" border="1" cellspacing="0" summary="고객문의">
     	<div class="staff_tab" >
     		<ul>
     			<li><a href="#"" class="on">기본</a></li>
-    			<li><a href="javascript:msg();">학력</a></li>
-    			<li><a href="javascript:msg();">경력</a></li>
-    			<li><a href="javascript:msg();">자격증</a></li>
-    			<li><a href="javascript:msg();">교육</a></li>
+    			<li><a href="javascript:msg('education');">학력</a></li>
+    			<li><a href="javascript:msg('career');">경력</a></li>
+    			<li><a href="javascript:msg('license');">자격증</a></li>
+    			<li><a href="javascript:msg('edu');">교육</a></li>
     		</ul>
     	</div>
+    	</frame>
+
+    	<frame name="content">
     		<colgroup>
     		<col width="15%" />
     		<col width="30%" />
@@ -185,17 +178,17 @@
     		</colgroup>
     		<tr>
     			<th>사번</th>
-    			<td><label><input class="input01" type="text" name="sabun" maxlength="8" size="10" value="<%=vl.get(0).get("ID")%>"></label></td>
+    			<td><label><input class="input01" type="text" name="sabun" maxlength="8" size="10" value="${empty ManagemantDTO.get(0).ID ? '' : ManagemantDTO.get(0).ID}"></label></td>
     			<th>보직일자</th>
-    			<td><label><input class="input01" type="text" id="bogic_date" name="bogic_date" maxlength="10" size="10" value="<%=vl.get(0).get("POSITION_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="bogic_date" name="bogic_date" maxlength="10" size="10" value="${empty ManagemantDTO.get(0).POSITION_YMD ? '' : ManagemantDTO.get(0).POSITION_YMD}" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="/images/Calendar.gif" alt="보직일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('bogic_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<tr>
     			<th>이름</th>
-    			<td colspan=3><label><input class="input01" type="text" name="kor_nm" maxlength="8" size="10" value="<%=vl.get(0).get("KOR_NAME")%>" >
+    			<td colspan=3><label><input class="input01" type="text" name="kor_nm" maxlength="8" size="10" value="${empty ManagemantDTO.get(0).KOR_NAME ? '' : ManagemantDTO.get(0).KOR_NAME}" >
     				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    				<span class="info_msg">( 영문 :<input class="input01" type="text" name="eng_nm" maxlength="20" size="20" value="<%=vl.get(0).get("ENG_NAME")%>" >&nbsp;&nbsp;한자 : <input class="input01" type="text" name="chi_nm" maxlength="8" size="10" value="<%=vl.get(0).get("CHI_NAME")%>" >)</span></label>
+    				<span class="info_msg">( 영문 :<input class="input01" type="text" name="eng_nm" maxlength="20" size="20" value="${empty ManagemantDTO.get(0).ENG_NAME ? '' : ManagemantDTO.get(0).ENG_NAME}" >&nbsp;&nbsp;한자 : <input class="input01" type="text" name="chi_nm" maxlength="8" size="10" value="${empty ManagemantDTO.get(0).CHI_NAME ? '' : ManagemantDTO.get(0).CHI_NAME}" >)</span></label>
     			</td>
     		</tr>
     		<tr>
@@ -209,11 +202,11 @@
     			<td><label><input class="input01" type="hidden" name="SID1" maxlength="6" size="6" value=""  onKeyUp="checkNum(this)" > -
     				<input class="input01" type="hidden" name="SID2" maxlength="7" size="7" value=""  onKeyUp="checkNum(this)" onBlur="checkSID()"></label></td>
     			<th>생년월일</th>
-    			<td><label><input class="input01" type="text" id="birth_date" name="birth_date" maxlength="10" size="10" value="<%=vl.get(0).get("BIRTH_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="birth_date" name="birth_date" maxlength="10" size="10" value="${empty ManagemantDTO.get(0).BIRTH_YMD ? '' : ManagemantDTO.get(0).BIRTH_YMD}" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="/images/Calendar.gif" alt="생년월일" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('birth_date'));" style="cursor: pointer;" />
     				(<input type="radio" name="lunar" value="Y" style="position:relative;top:2px;" checked> <span class="info_msg">양</span>
     				<input type="radio" name="lunar" value="N" style="position:relative;top:2px;" > <span class="info_msg">음</span>)
-    				<input type="hidden" name="jumin_no" value=""></label>
+    				<input type="hidden" class="jumin_no" name="jumin_no" value="${empty ManagemantDTO.get(0).JUMIN_NO ? '' : ManagemantDTO.get(0).JUMIN_NO}"></label>
     			</td>
     		</tr>
     		<tr><!-- 사진첨부 증명사진 -->
@@ -233,7 +226,7 @@
             </tr>
     		<tr>
     			<th>입사일자</th>
-    			<td><label><input class="input01" type="text" id="in_date" name="in_date"  maxlength="10" size="10" value="<%=vl.get(0).get("JOIN_YMD")%>" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
+    			<td><label><input class="input01" type="text" id="in_date" name="in_date"  maxlength="10" size="10" value="${empty ManagemantDTO.get(0).JOIN_YMD ? '' : ManagemantDTO.get(0).JOIN_YMD}" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)">
     				<img src="/images/Calendar.gif" alt="입사일자"  border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('in_date'));" style="cursor: pointer;" /></label>
                 </td>
     			<th>퇴사일자</th>
@@ -244,21 +237,16 @@
     				<img src="/images/Calendar.gif" alt="퇴사일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('out_date'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
-    		<!--    			     <% if(vl.get(0).get("LEAVE_YMD") != null ) {%>
-                			        value="<%=vl.get(0).get("LEAVE_YMD")%>"
-                			     <% } else { %>
-                			        value=""
-                			     <% } %> -->
     		<tr>
     			<th>부서명</th>
     			<td>
-    				<label><select name='part' class="part" id= "<%=vl.get(0).get("DEPT_CODE")%>" style="height:22px" >
-                                <option>-선택-</option>
+    				<label><select name='part' class="part" id= "${empty ManagemantDTO.get(0).DEPT_CODE ? '' : ManagemantDTO.get(0).DEPT_CODE}" style="height:22px" >
+
     				</select></label>
                 </td>
     			<th>팀명</th>
     			<td>
-    				<label><select name='team' class="team" id= "<%=vl.get(0).get("TEAM_CODE")%>"  style="height:22px" >
+    				<label><select name='team' class="team" id= "${empty ManagemantDTO.get(0).TEAM_CODE ? '' : ManagemantDTO.get(0).TEAM_CODE}"  style="height:22px" >
                                 <option>-선택-</option>
     				</select></label>
                 </td>
@@ -266,13 +254,13 @@
     		<tr>
     			<th>직급</th>
     			<td>
-    				<label><select name='level' class="level" id= "<%=vl.get(0).get("POSITION_CODE")%>" style="height:22px" >
+    				<label><select name='level' class="level" id= "${empty ManagemantDTO.get(0).POSITION_CODE ? '' : ManagemantDTO.get(0).POSITION_CODE}" style="height:22px" >
                                 <option>-선택-</option>
     				</select></label>
                 </td>
     			<th>직위</th>
     			<td>
-    				<label><select name='grade' class="grade" id= "<%=vl.get(0).get("ONE_DUTY_CODE")%>" style="height:22px" >
+    				<label><select name='grade' class="grade" id= "${empty ManagemantDTO.get(0).ONE_DUTY_CODE ? '' : ManagemantDTO.get(0).ONE_DUTY_CODE}" style="height:22px" >
                                 <option>-선택-</option>
     				</select></label>
                 </td>
@@ -280,13 +268,13 @@
     		<tr>
     			<th>채용구분</th>
     			<td>
-    				<label><select name='recruit' class="recruit" id= "<%=vl.get(0).get("EMPLOYMENT_CODE")%>" style="height:22px" >
+    				<label><select name='recruit' class="recruit" id= "${empty ManagemantDTO.get(0).EMPLOYMENT_CODE ? '' : ManagemantDTO.get(0).EMPLOYMENT_CODE}" style="height:22px" >
                                 <option>-선택-</option>
     			</select></label>
                 </td>
     			<th>계약구분</th>
     			<td>
-    				<label><select name="contract" class="contract" id= "<%=vl.get(0).get("CONTRACT_WORK_YN")%>" style="height:22px" >
+    				<label><select name="contract" class="contract" id= "${empty ManagemantDTO.get(0).CONTRACT_WORK_YN ? '' : ManagemantDTO.get(0).CONTRACT_WORK_YN}" style="height:22px" >
                                 <option>-선택-</option>
     				</select></label>
     			</td>
@@ -312,36 +300,48 @@
     		<tr>
     			<th>현 주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="<%=vl.get(0).get("ZIPCODE")%>" readonly />
+    				<label><input class="input01" type="text" class="input01" id="" size="7" name="c_ZipCode" value="${empty ManagemantDTO.get(0).ZIPCODE ? '' : ManagemantDTO.get(0).ZIPCODE}" readonly />
     				<img src="/images/bt_adress.gif" alt="현주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('0')" style="cursor:hand" /><br />
-    				<input value="<%=vl.get(0).get("ADDRESS")%>" class="input01"  maxlength="45" size="70" name="c_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="${empty ManagemantDTO.get(0).ADDRESS ? '' : ManagemantDTO.get(0).ADDRESS}" class="input01"  maxlength="45" size="70" name="c_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>본적</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="<%=vl.get(0).get("FAMILY_REGISTER_ZIPCODE")%>" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="family_register_ZipCode" value="${empty ManagemantDTO.get(0).FAMILY_REGISTER_ZIPCODE ? '' : ManagemantDTO.get(0).FAMILY_REGISTER_ZIPCODE}" readonly />
     				<img src="/images/bt_adress.gif" width="60" alt="본적" height="18" name="ZipCodeOpen" onClick="ZipWindow('1')" style="cursor:hand" /><br />
-    				<input value="<%=vl.get(0).get("FAMILY_REGISTER_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="family_register_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="${empty ManagemantDTO.get(0).FAMILY_REGISTER_ADDRESS ? '' : ManagemantDTO.get(0).FAMILY_REGISTER_ADDRESS}" class="input01"  maxlength="45" size="70" name="family_register_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>주민주소</th>
     			<td colspan="3" style="line-height:25px;">
-    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="<%=vl.get(0).get("JUMIN_ZIPCODE")%>" readonly />
+    				<label><input class="input01" type="text" id="" size="7" name="jumin_ZipCode" value="${empty ManagemantDTO.get(0).JUMIN_ZIPCODE ? '' : ManagemantDTO.get(0).JUMIN_ZIPCODE}" readonly />
     				<img src="/images/bt_adress.gif" alt="주민주소" width="60" height="18" name="ZipCodeOpen" onClick="ZipWindow('2')" style="cursor:hand" /><br />
-    				<input value="<%=vl.get(0).get("JUMIN_ADDRESS")%>" class="input01"  maxlength="45" size="70" name="jumin_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
+    				<input value="${empty ManagemantDTO.get(0).JUMIN_ADDRESS ? '' : ManagemantDTO.get(0).JUMIN_ADDRESS}" class="input01"  maxlength="45" size="70" name="jumin_Address" style="width: 500px;" onKeyUp="input_cal_byte(this, 70)" ></label>
 
     			</td>
     		</tr>
     		<tr>
     			<th>권한등급</th>
-    			<td>
-    				<label><select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" >
-                                <option>-선택-</option>
-    				</select></label>
+    			<td><label>
+    			    <fmt:parseNumber value="${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" var="grade"/>
+    			    <c:choose>
+                    <c:when test="${grade < 2000}">
+                        <select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" disabled>
+                                    <option>-선택-</option>
+                        </select>
+                        <input name='access' type="hidden" value="${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" >
+                    </c:when>
+                    <c:otherwise>
+                        <select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" >
+                                    <option>-선택-</option>
+                        </select>
+                    </c:otherwise>
+                    </c:choose>
+    				</label>
     			</td>
     			<th>관리여부</th>
     			<td>
@@ -358,12 +358,16 @@
     		</tr>
     	</table>
     	</div>
+    	</frame>
+    	</frameset>
     <!-- button -->
     		<p class="tbl_button">
-    			<a href="javascript:regist();"><img src="/images/bt_regist.gif" alt="등록" /></a>
+    			<a href="javascript:regist(1);"><img src="/images/bt_regist.gif" alt="등록" /></a>
     			<a href="javascript:history.back(-1)"><img src="/images/bt_cancel.gif" alt="취소" /></a>
     		</p>
       <!-- //button -->
+
+    </div>
     </form>
     </main>
     <footer >
