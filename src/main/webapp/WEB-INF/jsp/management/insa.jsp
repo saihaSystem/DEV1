@@ -159,7 +159,7 @@
                   <c:forEach var="ManagementDTO" items="${insaList}" varStatus="status">
                     <tr>
                         <td>${ManagementDTO.brdNo}</td>
-                        <td><a href="/management">${ManagementDTO.juminNo}</a></td>
+                        <td><a href="/management/management?juminNo=${ManagementDTO.juminNo}">${ManagementDTO.juminNo}</a></td>
                         <td>${ManagementDTO.name}</td>
                         <td>${ManagementDTO.juminNo2}</td>
                         <td>${ManagementDTO.sosok}</td>

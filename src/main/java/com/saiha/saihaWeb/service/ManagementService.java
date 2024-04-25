@@ -19,6 +19,13 @@ public class ManagementService {
         return this.managementMapper.select_contents_data(UserID);
     }
 
+    public List<Map<String,Object>> select_education_data(String jumin,String seq){
+        return this.managementMapper.select_education_data(jumin,seq);
+    }
+    public List<Map<String,Object>> select_education_list(String jumin){
+        return this.managementMapper.select_education_list(jumin);
+    }
+
     public List<ManagementDTO> selectInsa(Map<String, Object> param) {
 
         return managementMapper.selectInsa(param);

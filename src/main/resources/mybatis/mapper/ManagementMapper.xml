@@ -22,6 +22,48 @@
         ]]>
     </select>
 
+    <select id="select_education_data" resultType="map" parameterType="String">
+          SELECT   SEQ, ENTER_YMD
+                  ,SubStr(ENTER_YMD,1,4) ENTER_Y, SubStr(ENTER_YMD,6,2) ENTER_M, SubStr(ENTER_YMD,9,2) ENTER_D
+                  ,GRADUATION_YMD, SCHOOL_CODE
+                  ,SubStr(GRADUATION_YMD,1,4) GRADUATION_Y
+                  ,SubStr(GRADUATION_YMD,6,2) GRADUATION_M
+                  ,SubStr(GRADUATION_YMD,9,2) GRADUATION_D
+                  ,NVL(A.SCHOOL_NM,(SELECT SCHOOL_NM  FROM   ACADEMICCODE WHERE CODE = A.SCHOOL_CODE)) SCHOOL
+                  ,MAJOR, A.ACADEMIC_CODE, A.GRADUATION_CODE, A.DEGREE_CODE
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.ACADEMIC_CODE) ACADEMIC
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.GRADUATION_CODE) GRADUATION
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.DEGREE_CODE) DEGREE
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.LOCATION) LOCATION
+                  ,MINOR, A.LOCATION LOCATION_CODE, B.SAVE_FILE_NM, B.FILE_NM, B.SAVE_PATH, B.FILE_SIZE
+          FROM ACADEMIC A, INFORMATIONFILE B
+          WHERE A.JUMIN_NO = B.JUMIN_NO(+)
+          AND A.SEQ = INFORMATION_NO(+)
+          AND B.GUBUN(+) = 'SCHO'
+          AND A.JUMIN_NO = #{jumin}
+          AND A.SEQ = #{seq}
+    </select>
+
+
+
+
+
+    <select id="select_education_list" resultType="map" parameterType="String">
+          SELECT   SEQ
+                  ,NVL(A.SCHOOL_NM,(SELECT SCHOOL_NM  FROM   ACADEMICCODE WHERE CODE = A.SCHOOL_CODE)) SCHOOL
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.LOCATION) LOCATION
+                  ,SubStr(ENTER_YMD,1,7) ENTER_Y
+                  ,SubStr(GRADUATION_YMD,1,7) GRADUATION_Y
+                  ,MAJOR
+                  ,MINOR
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.DEGREE_CODE) DEGREE
+                  ,(SELECT CODE_NM  FROM   COMMON WHERE CODE = A.GRADUATION_CODE) GRADUATION
+                  ,JUMIN_NO
+          FROM ACADEMIC A
+          WHERE JUMIN_NO = #{jumin}
+
+    </select>
+
 
     <select id="insaCount" resultType="int" parameterType="map">
         SELECT count(*) count
