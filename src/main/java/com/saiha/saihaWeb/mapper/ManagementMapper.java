@@ -11,6 +11,10 @@ import java.util.Map;
 public interface ManagementMapper {
      List<Map<String,Object>> select_contents_data(String UserID);
 
+     List<Map<String,Object>> select_education_data(String jumin,String seq);
+
+     List<Map<String,Object>> select_education_list(String jumin);
+
      List<ManagementDTO> selectInsa(Map<String, Object> param);
      int insaCount(Map<String, Object> param);
 }
