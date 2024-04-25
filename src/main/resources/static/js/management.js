@@ -18,9 +18,16 @@ function msg(path){
   if(path == "management"){
      $('#page').load('/management/management?juminNo='+$('.jumin_no').val()+' #page');
 
-  }else if(path == "management_ex"){
+  }else if(path == "education"){
      $('#page').load('/management/management_ex?juminNo='+$('.jumin_no').val());
+  }else if(path == "career"){
+     $('#page').load('/management/management_ex2?juminNo='+$('.jumin_no').val());
+  }else if(path == "license"){
+     $('#page').load('/management/management_ex3?juminNo='+$('.jumin_no').val());
+  }else if(path == "edu"){
+     $('#page').load('/management/management_ex4?juminNo='+$('.jumin_no').val());
   }
+
 
 }
 
@@ -94,7 +101,7 @@ function viewDetail(jumin, seq){
    data['jumin'] = jumin;
    data['seq'] = seq;
    $.ajax({
-         url: '/management/managementEduAjax',
+         url: '/management/managementEducationAjax',
          type: "POST",
          data: JSON.stringify(data),
          dataType: "JSON",
@@ -103,13 +110,14 @@ function viewDetail(jumin, seq){
          success: function(result) {
                   console.log(result);
                   $('.scho_nm').val(result[0].SCHOOL);
-                  $('.scho_code').val(result[0].SCHO_CODE);
+                  $('.scho_code').val(result[0].SCHOOL_CODE);
                   $('.iyear').val(result[0].ENTER_Y);
                   $('.imonth').val(result[0].ENTER_M);
                   $('.oyear').val(result[0].GRADUATION_Y);
                   $('.omonth').val(result[0].GRADUATION_M);
                   $('.major').val(result[0].MAJOR);
                   $('.minor').val(result[0].MINOR);
+                  $('.seq').val(result[0].SEQ);
 
                   $("#grad_div").val(result[0].GRADUATION_CODE).prop("selected", true);
                   $("#locate").val(result[0].LOCATION_CODE).prop("selected", true);
@@ -125,6 +133,137 @@ function viewDetail(jumin, seq){
                console.log("edu fail");
          }
        });
+}
+
+function viewDetail2(jumin, seq){
+   var data = {}
+   data['jumin'] = jumin;
+   data['seq'] = seq;
+   $.ajax({
+         url: '/management/managementCareerAjax',
+         type: "POST",
+         data: JSON.stringify(data),
+         dataType: "JSON",
+         contentType: "application/json",
+         accept: "application/json",
+         success: function(result) {
+                  console.log(result);
+                  $('.dept_nm').val(result[0].DEPT_NM);
+                  $('.date1').val(result[0].JOIN_YMD);
+                  $('.date2').val(result[0].LEAVE_YMD);
+                  $('.position').val(result[0].POSITION);
+                  $('.one_duty').val(result[0].ONE_DUTY);
+                  $('.career_step').val(result[0].CAREER_STEP);
+
+
+                  $('.butt2').show();
+
+
+                  console.log("career success");
+         },
+         error: function(result) {
+               console.log("career fail");
+         }
+       });
+}
+
+function viewDetail3(jumin, seq){
+   var data = {}
+   data['jumin'] = jumin;
+   data['seq'] = seq;
+   $.ajax({
+         url: '/management/managementLicenseAjax',
+         type: "POST",
+         data: JSON.stringify(data),
+         dataType: "JSON",
+         contentType: "application/json",
+         accept: "application/json",
+         success: function(result) {
+                  console.log(result);
+                  $('.cert_name').val(result[0].LICENSE_NM);
+                  $('.date1').val(result[0].GAIN_YMD);
+                  $('.cert_level').val(result[0].LICENSE_GRADE);
+                  $('.cert_num').val(result[0].LICENSE_NO);
+                  $('.publish').val(result[0].SEND_DEPT_NM);
+                  $('.SEQ').val(result[0].LICENSE_SEQ);
+
+
+
+
+                  $('.butt3').show();
+
+
+                  console.log("license success");
+         },
+         error: function(result) {
+               console.log("edu fail");
+         }
+       });
+}
+
+function viewDetail4(jumin, seq){
+   var data = {}
+   data['jumin'] = jumin;
+   data['seq'] = seq;
+   $.ajax({
+         url: '/management/managementEduAjax',
+         type: "POST",
+         data: JSON.stringify(data),
+         dataType: "JSON",
+         contentType: "application/json",
+         accept: "application/json",
+         success: function(result) {
+                  console.log(result);
+                  $('.edu_name').val(result[0].EDU_NAME);
+                  $('.date1').val(result[0].START_YMD);
+                  $('.date2').val(result[0].END_YMD);
+                  $('.edu_num').val(result[0].EDU_NUM);
+                  $('.date3').val(result[0].GAIN_YMD);
+                  $('.edu_seq').val(result[0].EDU_SEQ);
+                  $('.edu_agcy').val(result[0].EDU_AGCY);
+
+
+
+                  $('.butt4').show();
+
+
+                  console.log("edu success");
+         },
+         error: function(result) {
+               console.log("edu fail");
+         }
+       });
+}
+
+function moveList(){
+     location.href="/management/insa?pagenum=5&pagemax=10";
+}
+
+function regist(num){
+    if(num == "1"){
+        document.fm.action = "/management/managementUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "2"){
+        document.fm.enter_ymd.value= document.fm.iyear.value+"-"+document.fm.imonth.value+"01";
+        document.fm.graduation_ymd.value= document.fm.oyear.value+"-"+document.fm.omonth.value+"01";
+        document.fm.action = "/management/managementEducationUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "3"){
+        document.fm.action = "/management/managementCareerUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "4"){
+        document.fm.action = "/management/managementLicenseUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "5"){
+        document.fm.action = "/management/managementEduUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
+    }
+
 }
 
 

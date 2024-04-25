@@ -24,10 +24,10 @@
    	<div class="staff_tab">
    		<ul>
    			<li><a href="javascript:msg('management');">기본</a></li>
-   			<li><a href="javascript:"  class="on">학력</a></li>
-            <li><a href="javascript:msg();">경력</a></li>
-            <li><a href="javascript:msg();">자격증</a></li>
-            <li><a href="javascript:msg();">교육</a></li>
+   			<li><a href="javascript:msg('education');">학력</a></li>
+            <li><a href="javascript:" class="on">경력</a></li>
+            <li><a href="javascript:msg('license');">자격증</a></li>
+            <li><a href="javascript:msg('edu');">교육</a></li>
    		</ul>
    	</div>
 
@@ -56,24 +56,24 @@
     		</colgroup>
     		<tr>
     			<th>회사명</th>
-    			<td><label><input class="input01" type="text" name="dept_nm" maxlength="15" size="20" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getDept_nm())); %>"></label></td>
+    			<td><label><input class="dept_nm" type="text" name="dept_nm" maxlength="15" size="20" value=""></label></td>
     			<th>기간</th>
     			<td><label>
-    				<input class="input01" type="text" id="date1" name="date1" size="10" maxlength="10" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getJoin_ymd())); %>">
+    				<input class="date1" type="text" id="date1" name="date1" size="10" maxlength="10" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)" value="">
     				<img src="/images/Calendar.gif" alt="시작일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('date1'));" style="cursor: pointer;" /> ~
-    				<input class="input01" type="text" id="date2" name="date2" size="10" maxlength="10" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getLeave_ymd())); %>">
+    				<input class="date2" type="text" id="date2" name="date2" size="10" maxlength="10" onBlur="javascript:js_dateCheck(this);" onFocus="js_removeChar2(this)" value="">
     				<img src="/images/Calendar.gif" alt="종료일자" border="0" align="absbottom" onclick="newCarlanderArrayById(document.getElementById('date2'));" style="cursor: pointer;" /></label>
     			</td>
     		</tr>
     		<tr>
     			<th>직위</th>
     			<td><label>
-    				<input class="input01" type="text" name="position" maxlength="10" size="20" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getPosition())); %>"></label>
+    				<input class="position" type="text" name="position" maxlength="10" size="20" value=""></label>
     			</td>
     			<th>직책</th>
     			<td><label>
-    				<input class="input01" type="text" name="one_duty" maxlength="10" size="20" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getOne_duty())); %>">
-    				<input class="input01" type="hidden" name="career_step" maxlength="10" size="20" value="<%if(vl2.size() != 0)out.print(StringUtils.defaultString(vl2.get(0).getCareer_step())); %>"></label>
+    				<input class="one_duty" type="text" name="one_duty" maxlength="10" size="20" value="">
+    				<input class="career_step" type="hidden" name="career_step" maxlength="10" size="20" value=""></label>
     			</td>
     		</tr>
     	</table>
@@ -83,45 +83,29 @@
     		<col width="15%" />
     		<col width="85%" />
     		</colgroup>
-    <%if(vl2.size() != 0){ %>
+   	     	<c:choose>
+   	     	<c:when test="${fn:length(vlist) != 0}">
     		<tr >
     			<th rowspan="2">파일첨부</br><img src="/images/btn_filedel.gif" bolder="0" align="absmiddle" style="cursor:hand" onclick="javascript:fOpen('${pageContext.request.contextPath}/jsp/common/AttachDelForm.jsp?fn_nm=fm&fgubun=MOD', 'attachPopup', 400, 300, 'resizable=no');" /></th>
-    			<td><label>
-    				<jsp:include page="/jsp/common/AttachAddInc.jsp" >
-    					<jsp:param name="fgubun"    value="MOD"  />
-    					<jsp:param name="SPS_IFILE_MOD_KEY"    value="WEB_INS_100_B01_VL_DATA"  />
-    					<jsp:param name="ifile_id"  value="<%=ifile_id%>"  />
-    				</jsp:include></label>
+    			<td><label></label>
 
     			</td>
     	    </tr>
 
     		<tr>
-    			<td><label>
-    	            <jsp:include page="/jsp/common/AttachAddInc.jsp" >
-    	                <jsp:param name="fgubun"    value="ADD"  />
-    	                <jsp:param name="cols"      value="80"  />
-    	                <jsp:param name="rows"      value="1"  />
-    	                <jsp:param name="ifile_id"  value="<%=ifile_id%>"  />
-    	                <jsp:param name="ifile_tnm" value="<%=ifile_tnm%>"  />
-    	            </jsp:include></label>
+    			<td><label></label>
     	                <img src="/images/btn_fileps.gif" alt="파일첨부" align="absmiddle" style="cursor:hand" onclick="javascript:fOpen('${pageContext.request.contextPath}/jsp/common/AttachForm.jsp?fn_nm=fm&fgubun=ADD', 'attachPopup', 400, 300, 'resizable=no');" />
     			</td>
     	    </tr>
-    <%}else{ %>
+            </c:when>
+       		<c:otherwise>
     		<th>파일첨부</th>
-    			<td><label>
-    	            <jsp:include page="/jsp/common/AttachAddInc.jsp" >
-    	                <jsp:param name="fgubun"    value="ADD"  />
-    	                <jsp:param name="cols"      value="80"  />
-    	                <jsp:param name="rows"      value="1"  />
-    	                <jsp:param name="ifile_id"  value="<%=ifile_id%>"  />
-    	                <jsp:param name="ifile_tnm" value="<%=ifile_tnm%>"  />
-    	            </jsp:include></label>
+    			<td><label></label>
     	                <img src="/images/btn_fileps.gif" alt="파일첨부" align="absmiddle" style="cursor:hand" onclick="javascript:fOpen('${pageContext.request.contextPath}/jsp/common/AttachForm.jsp?fn_nm=fm&fgubun=ADD', 'attachPopup', 400, 300, 'resizable=no');" />
     			</td>
     	    </tr>
-    <%} %>
+   	    </c:otherwise>
+   	    </c:choose>
     	</table>
     	<br><br>
     	<table class="board_list" summary="경력사항">
@@ -140,26 +124,24 @@
     			<th>직위</th>
     			<th>직책</th>
     		</tr>
-    		<%
-    			if(vl.size() != 0){
-    			// 조회결과가 있을경우 리스트 출력
-    				for (int i = 0; i < vl.size(); i++) {
-    		%>
-    		<tr align="center">
-    			<td><%=StringUtils.defaultString(vl.get(i).getCareer_step())%></td>
-    			<td align="center"subject"><a href="javascript:viewDetail('<%=vl.get(i).getJumin_no()%>','<%=vl.get(i).getCareer_step() %>');"><%=StringUtils.defaultString(vl.get(i).getDept_nm())%></a></td>
-    			<td align="center"><%=StringUtils.defaultString(vl.get(i).getJoin_ymd())%>~<%=StringUtils.defaultString(vl.get(i).getLeave_ymd())%></td>
-    			<td align="center"><%=StringUtils.defaultString(vl.get(i).getPosition())%></td>
-    			<td align="center"><%=StringUtils.defaultString(vl.get(i).getOne_duty())%></td>
-    		</tr>
-    		<%
-    				}
-    			}else{
-    		%>
-    		<tr>
-    			<td align="center" colspan="5">조회된 데이터가 없습니다.</td>
-    		</tr>
-    		<%	} %>
+    		<c:choose>
+               <c:when test="${fn:length(vlist) != 0 && vlist.get(0).CAREER_STEP ne '' && vlist.get(0).CAREER_STEP ne null}">
+                  <c:forEach var="item" items="${vlist}" varStatus="status">
+                     <tr align="center" onclick="viewDetail2(${empty ml.get(0).ID ? '' : ml.get(0).ID},${empty item.CAREER_STEP ? '' : item.CAREER_STEP});" style="cursor: pointer;">
+                                    <td align="center">${empty item.CAREER_STEP ? '' : item.CAREER_STEP}</td>
+                                    <td align="center">${empty item.DEPT_NM ? '' : item.DEPT_NM}</td>
+                                    <td align="center">${empty item.JOIN_YMD ? '' : item.JOIN_YMD}~${empty item.LEAVE_YMD ? '' : item.LEAVE_YMD}</td>
+                                    <td align="center">${empty item.POSITION ? '' : item.POSITION}</td>
+                                    <td align="center">${empty item.ONE_DUTY ? '' : item.ONE_DUTY}</td>
+                     </tr>
+                  </c:forEach>
+               </c:when>
+               <c:otherwise>
+                    <tr>
+                        <td align="center" colspan="5">조회된 데이터가 없습니다.</td>
+                    </tr>
+               </c:otherwise>
+            </c:choose>
     	</table>
     	<table width="100%" border="0" cellspacing="0" cellpadding="0">
     		<tr>
@@ -173,7 +155,7 @@
    		<p class="tbl_button">
             <a href="javascript:fnew();" class="butt2" style="display:none;"><img src="/images/bt_new.gif" alt="저장"  /></a>
             <a href="javascript:Delete();" class="butt2" style="display:none;"><img src="/images/bt_del.gif" alt="삭제" /></a>
-   			<a href="javascript:regist();"><img src="/images/bt_regist.gif" alt="등록" /></a>
+   			<a href="javascript:regist(2);"><img src="/images/bt_regist.gif" alt="등록" /></a>
    			<a href="javascript:moveList();"><img src="/images/bt_cancel.gif" alt="취소" /></a>
    		</p>
      <!-- //button -->

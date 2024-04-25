@@ -25,9 +25,9 @@
    		<ul>
    			<li><a href="javascript:msg('management');">기본</a></li>
    			<li><a href="javascript:"  class="on">학력</a></li>
-            <li><a href="javascript:msg();">경력</a></li>
-            <li><a href="javascript:msg();">자격증</a></li>
-            <li><a href="javascript:msg();">교육</a></li>
+            <li><a href="javascript:msg('career');">경력</a></li>
+            <li><a href="javascript:msg('license');">자격증</a></li>
+            <li><a href="javascript:msg('edu');">교육</a></li>
    		</ul>
    	</div>
    	<table class="tbl_form" border="1" cellspacing="0" summary="">
@@ -53,6 +53,7 @@
    		<col width="15%" />
    		<col width="35%" />
    		</colgroup>
+   		<input type=hidden name="seq" class="seq" value="">
    		<tr>
    			<th>학교명</th>
    			<td><label>
@@ -185,7 +186,7 @@
    		<p class="tbl_button">
             <a href="javascript:fnew();" class="butt" style="display:none;"><img src="/images/bt_new.gif" alt="저장"  /></a>
             <a href="javascript:Delete();" class="butt" style="display:none;"><img src="/images/bt_del.gif" alt="삭제" /></a>
-   			<a href="javascript:regist();"><img src="/images/bt_regist.gif" alt="등록" /></a>
+   			<a href="javascript:regist(2);"><img src="/images/bt_regist.gif" alt="등록" /></a>
    			<a href="javascript:moveList();"><img src="/images/bt_cancel.gif" alt="취소" /></a>
    		</p>
      <!-- //button -->

@@ -46,8 +46,6 @@
 
 
 
-
-
     <select id="select_education_list" resultType="map" parameterType="String">
           SELECT   SEQ
                   ,NVL(A.SCHOOL_NM,(SELECT SCHOOL_NM  FROM   ACADEMICCODE WHERE CODE = A.SCHOOL_CODE)) SCHOOL
@@ -63,6 +61,155 @@
           WHERE JUMIN_NO = #{jumin}
 
     </select>
+
+    <select id="select_career_data" resultType="map" parameterType="String">
+              SELECT  T1.CAREER_STEP, T1.JUMIN_NO,T1.DEPT_NM, T1.POSITION, T1.ONE_DUTY,
+                      T1.JOIN_YMD, T1.LEAVE_YMD,
+                      T2.SAVE_FILE_NM, T2.FILE_NM, T2.SAVE_PATH, T2.FILE_SIZE
+              FROM CAREER T1, informationfile t2
+              WHERE T1.JUMIN_NO = T2.JUMIN_NO(+)
+                AND T1.CAREER_STEP = T2.INFORMATION_NO(+)
+                AND T2.GUBUN(+) = 'CARE'
+                AND T1.JUMIN_NO = #{jumin}
+                 AND T1.CAREER_STEP = #{seq}
+    </select>
+
+
+    <select id="select_career_list" resultType="map" parameterType="String">
+            SELECT CAREER_STEP, JUMIN_NO
+                  ,DEPT_NM, POSITION, ONE_DUTY
+                  ,SubStr(JOIN_YMD,1,7) JOIN_YMD
+                  ,SubStr(LEAVE_YMD,1,7) LEAVE_YMD
+            FROM CAREER
+            WHERE JUMIN_NO = #{jumin}
+
+    </select>
+
+    <select id="select_license_data" resultType="map" parameterType="String">
+         /* select_license_data */                  
+         SELECT license_seq, gain_ymd, license_grade, license_no, license_nm,         
+                send_dept_nm, t2.save_file_nm, t2.file_nm, t2.save_path, t2.file_size 
+           FROM license t1, informationfile t2                                        
+          WHERE t1.jumin_no = t2.jumin_no(+)                                          
+            AND t1.license_seq = t2.information_no(+)                                 
+            AND t2.gubun(+)     = 'CERT'                                                 
+            AND t1.jumin_no    = #{jumin}
+            AND t1.license_seq = #{seq}
+
+    </select>
+
+    <select id="select_license_list" resultType="map" parameterType="String">
+             SELECT /*select_license_list*/              
+                     LICENSE_SEQ,LICENSE_NM, LICENSE_GRADE,                    
+                     LICENSE_NO, GAIN_YMD, SEND_DEPT_NM, JUMIN_NO           
+             FROM LICENSE                                             
+             WHERE JUMIN_NO = #{jumin}
+    </select>
+
+
+
+    <select id="select_edu_data" resultType="map" parameterType="String">
+             SELECT T1.EDU_SEQ, T1.JUMIN_NO,T1.EDU_NAME, T1.EDU_NUM, T1.START_YMD,      
+                T1.END_YMD, T1.EDU_AGCY,                       
+                T1.GAIN_YMD  ,                     
+                t2.save_file_nm, t2.file_nm, t2.save_path, t2.file_size               
+             FROM EDUCATION T1, informationfile t2                                         
+             WHERE T1.JUMIN_NO = T2.JUMIN_NO(+)                                         
+               AND T1.EDU_SEQ = T2.INFORMATION_NO(+)                                
+               AND T2.GUBUN(+) = 'EDUT'                                                 
+                AND T1.JUMIN_NO = #{jumin}
+                AND T1.EDU_SEQ = #{seq}
+    </select>
+
+
+
+
+
+    <select id="select_edu_list" resultType="map" parameterType="String">
+           SELECT EDU_SEQ, JUMIN_NO       
+                 ,EDU_NAME, EDU_NUM            
+                 ,SubStr(START_YMD,1,7) START_YMD       
+                 ,SubStr(END_YMD,1,7) END_YMD     
+                 ,EDU_AGCY, GAIN_YMD            
+           FROM EDUCATION                                    
+           WHERE JUMIN_NO = #{jumin}
+    </select>
+
+
+
+
+    <update id="managementUpdate" parameterType="map">
+              UPDATE INFORMATION                    "
+                 /* Insa_Base.updateTableINSA(String[], int, int) */
+                    SET ( KOR_NAME, CHI_NAME, ENG_NAME
+                        , JOIN_YMD, LEAVE_YMD, ZIPCODE, ADDRESS, FAMILY_REGISTER_ZIPCODE
+                        , FAMILY_REGISTER_ADDRESS, JUMIN_ZIPCODE, JUMIN_ADDRESS, POSITION_YMD, DEPT_CODE
+                        , TEAM_CODE, POSITION_CODE, ONE_DUTY_CODE, EMAIL, NUM_TEL
+                        , HP_TEL, PASSPORT_NO, CONTRACT_WORK_YN, EMPLOYMENT_CODE, BIRTH_YMD
+                        , SOLAR_CALENDAR_YN)
+                        =
+                        ( SELECT #{KOR_NAME}, #{CHI_NAME}, #{ENG_NAME}
+                        , #{JOIN_YMD}, #{LEAVE_YMD}, #{ZIPCODE}, #{ADDRESS}, #{FAMILY_REGISTER_ZIPCODE}
+                        , #{FAMILY_REGISTER_ADDRESS}, #{JUMIN_ZIPCODE}, #{JUMIN_ADDRESS}, #{POSITION_YMD}, #{DEPT_CODE}
+                        , #{TEAM_CODE}, #{POSITION_CODE}, #{ONE_DUTY_CODE}, #{EMAIL}, #{NUM_TEL}
+                        , #{HP_TEL}, #{PASSPORT_NO}, #{CONTRACT_WORK_YN}, #{EMPLOYMENT_CODE}, #{BIRTH_YMD}
+                        , #{SOLAR_CALENDAR_YN}
+                            FROM DUAL )
+                  WHERE JUMIN_NO = #{jumin}
+
+    </update>
+    <update id="managementEducationUpdate" parameterType="map">
+          UPDATE /*Insa_Scho.executeUpdate()*/ ACADEMIC
+            SET ENTER_YMD = #{ENTER_YMD},
+                GRADUATION_YMD = #{GRADUATION_YMD},
+                SCHOOL_CODE = #{SCHOOL_CODE},
+                MAJOR = #{MAJOR},
+                GRADUATION_CODE = #{GRADUATION_CODE},
+                DEGREE_CODE = #{DEGREE_CODE},
+                LOCATION = #{LOCATION},
+                MINOR = #{MINOR} ,
+                SCHOOL_NM = #{SCHOOL_NM}
+           WHERE JUMIN_NO = #{jumin}
+           AND SEQ = #{SEQ}
+
+    </update>
+    <update id="managementCareerUpdate" parameterType="map">
+          UPDATE CAREER
+             SET JOIN_YMD = #{JOIN_YMD},
+                 LEAVE_YMD = #{LEAVE_YMD},
+                 DEPT_NM = #{DEPT_NM},
+                 POSITION = #{POSITION},
+                 ONE_DUTY = #{ONE_DUTY}
+           WHERE JUMIN_NO = #{jumin} AND CAREER_STEP = #{CAREER_STEP}
+
+    </update>
+
+    <update id="managementLicenseUpdate" parameterType="map">
+          UPDATE LICENSE
+          SET   GAIN_YMD       = #{GAIN_YMD}
+               ,LICENSE_GRADE  = #{LICENSE_GRADE}
+               ,LICENSE_NO     = #{LICENSE_NO}
+               ,LICENSE_NM     = #{LICENSE_NM}
+               ,SEND_DEPT_NM   = #{SEND_DEPT_NM}
+          WHERE JUMIN_NO=#{jumin} AND LICENSE_SEQ=#{LICENSE_SEQ}
+
+    </update>
+
+    <update id="managementEduUpdate" parameterType="map">
+          UPDATE education
+             SET EDU_NAME = #{EDU_NAME},
+                 EDU_NUM = #{EDU_NUM},
+                 START_YMD = #{START_YMD},
+                 END_YMD = #{END_YMD},
+                 EDU_AGCY = #{EDU_AGCY},
+                 GAIN_YMD = #{GAIN_YMD}
+           WHERE jumin_no = #{jumin] AND edu_seq = #{edu_seq}
+
+    </update>
+
+
+
+
 
 
     <select id="insaCount" resultType="int" parameterType="map">

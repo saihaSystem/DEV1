@@ -161,10 +161,10 @@
     	<div class="staff_tab" >
     		<ul>
     			<li><a href="#"" class="on">기본</a></li>
-    			<li><a href="javascript:msg('management_ex');">학력</a></li>
-    			<li><a href="javascript:msg();">경력</a></li>
-    			<li><a href="javascript:msg();">자격증</a></li>
-    			<li><a href="javascript:msg();">교육</a></li>
+    			<li><a href="javascript:msg('education');">학력</a></li>
+    			<li><a href="javascript:msg('career');">경력</a></li>
+    			<li><a href="javascript:msg('license');">자격증</a></li>
+    			<li><a href="javascript:msg('edu');">교육</a></li>
     		</ul>
     	</div>
     	</frame>
@@ -362,7 +362,7 @@
     	</frameset>
     <!-- button -->
     		<p class="tbl_button">
-    			<a href="javascript:regist();"><img src="/images/bt_regist.gif" alt="등록" /></a>
+    			<a href="javascript:regist(1);"><img src="/images/bt_regist.gif" alt="등록" /></a>
     			<a href="javascript:history.back(-1)"><img src="/images/bt_cancel.gif" alt="취소" /></a>
     		</p>
       <!-- //button -->

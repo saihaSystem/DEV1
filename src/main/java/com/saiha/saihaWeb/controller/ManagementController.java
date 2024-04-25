@@ -78,13 +78,9 @@ public class ManagementController {
     }
 
     @ResponseBody
-    @PostMapping("/managementEduAjax")
-    public List<Map<String,Object>> managementEduAjax(@RequestBody Map<String,String> body,HttpServletRequest req){
+    @PostMapping("/managementEducationAjax")
+    public List<Map<String,Object>> managementEducationAjax(@RequestBody Map<String,String> body,HttpServletRequest req){
         List<Map<String,Object>> list = mo.select_education_data(body.get("jumin"), body.get("seq"));
-        if (list.size() > 0) {
-            req.setAttribute("idu2", "U");
-        }
-
         return list;
     }
 
@@ -94,7 +90,7 @@ public class ManagementController {
         String jumin = req.getParameter("juminNo");
 
         List<Map<String,Object>> vlist;
-        vlist = mo.select_education_list(jumin);
+        vlist = mo.select_career_list(jumin);
         List<Map<String,Object>> ml = mo.select_contents_data(req.getParameter("juminNo"));
 
 
@@ -107,13 +103,20 @@ public class ManagementController {
         return "management/management_ex2";
     }
 
+    @ResponseBody
+    @PostMapping("/managementCareerAjax")
+    public List<Map<String,Object>> managementCareerAjax(@RequestBody Map<String,String> body,HttpServletRequest req){
+        List<Map<String,Object>> list = mo.select_career_data(body.get("jumin"), body.get("seq"));
+        return list;
+    }
+
     @GetMapping("/management_ex3")
     public String management_ex3(HttpServletRequest req){
 
         String jumin = req.getParameter("juminNo");
 
         List<Map<String,Object>> vlist;
-        vlist = mo.select_education_list(jumin);
+        vlist = mo.select_license_list(jumin);
         List<Map<String,Object>> ml = mo.select_contents_data(req.getParameter("juminNo"));
 
 
@@ -125,13 +128,22 @@ public class ManagementController {
 
         return "management/management_ex3";
     }
+
+    @ResponseBody
+    @PostMapping("/managementLicenseAjax")
+    public List<Map<String,Object>> managementLicenseAjax(@RequestBody Map<String,String> body,HttpServletRequest req){
+        List<Map<String,Object>> list = mo.select_license_data(body.get("jumin"), body.get("seq"));
+        return list;
+    }
+
+
     @GetMapping("/management_ex4")
     public String management_ex4(HttpServletRequest req){
 
         String jumin = req.getParameter("juminNo");
 
         List<Map<String,Object>> vlist;
-        vlist = mo.select_education_list(jumin);
+        vlist = mo.select_edu_list(jumin);
         List<Map<String,Object>> ml = mo.select_contents_data(req.getParameter("juminNo"));
 
 
@@ -145,10 +157,119 @@ public class ManagementController {
     }
 
 
-    @PutMapping("/d")
-    public String managementUpdate(){
+    @ResponseBody
+    @PostMapping("/managementEduAjax")
+    public List<Map<String,Object>> managementEduAjax(@RequestBody Map<String,String> body,HttpServletRequest req){
+        List<Map<String,Object>> list = mo.select_edu_data(body.get("jumin"), body.get("seq"));
+        return list;
+    }
+
+
+    @PutMapping("/managementUpdate")
+    public String managementUpdate(HttpServletRequest request){
+
+        Map<String,String> map = new HashMap<>();
+
+        map.put("","");
+
+        mo.managementUpdate(map);
+
         return "management/management";
     }
+
+    @PostMapping("/managementEducationUpdate")
+    public String managementEducationUpdate(HttpServletRequest request){
+        Map<String,String> map = new HashMap<>();
+        System.out.println("ssss:   "+request.getParameter("enter_ymd"));
+
+        map.put("ENTER_YMD",request.getParameter("enter_ymd"));
+        map.put("GRADUATION_YMD",request.getParameter("graduation_ymd"));
+        map.put("SCHOOL_CODE",request.getParameter("scho_code"));
+        map.put("MAJOR",request.getParameter("major"));
+        map.put("GRADUATION_CODE",request.getParameter("grad_div"));
+        map.put("DEGREE_CODE",request.getParameter("degree"));
+        map.put("LOCATION",request.getParameter("locate"));
+        map.put("MINOR",request.getParameter("minor"));
+        map.put("SCHOOL_NM",request.getParameter("scho_nm"));
+        map.put("jumin",request.getParameter("jumin_no"));
+        map.put("SEQ",request.getParameter("seq"));
+
+        System.out.println(map);
+        mo.managementEducationUpdate(map);
+
+
+        return "management/management";
+    }
+
+    @PutMapping("/managementCareerUpdate")
+    public String managementCareerUpdate(HttpServletRequest request){
+        Map<String,String> map = new HashMap<>();
+
+        map.put("ENTER_YMD",request.getParameter(""));
+        map.put("GRADUATION_YMD",request.getParameter(""));
+        map.put("SCHOOL_CODE",request.getParameter(""));
+        map.put("MAJOR",request.getParameter(""));
+        map.put("GRADUATION_CODE",request.getParameter(""));
+        map.put("DEGREE_CODE",request.getParameter(""));
+        map.put("LOCATION",request.getParameter(""));
+        map.put("MINOR",request.getParameter(""));
+        map.put("SCHOOL_NM",request.getParameter(""));
+        map.put("jumin",request.getParameter(""));
+        map.put("SEQ",request.getParameter(""));
+
+        mo.managementCareerUpdate(map);
+
+
+        return "management/management";
+    }
+
+    @PutMapping("/managementLicenseUpdate")
+    public String managementLicenseUpdate(HttpServletRequest request){
+        Map<String,String> map = new HashMap<>();
+
+        map.put("","");
+
+        mo.managementLicenseUpdate(map);
+
+
+        return "management/management";
+    }
+
+    @PutMapping("/managementEduUpdate")
+    public String managementEduUpdate(HttpServletRequest request){
+
+        Map<String,String> map = new HashMap<>();
+
+        map.put("","");
+
+        mo.managementEduUpdate(map);
+
+        return "management/management";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // AJAX
     @ResponseBody
