@@ -63,22 +63,23 @@ public class ManagementController {
     // AJAX
     @ResponseBody
     @PostMapping("/pagination")
-    public List<BoardDTO> pagination(@RequestBody Map<String,Object> param, Model model) {
+    public List<ManagementDTO> pagination(@RequestBody Map<String,Object> param, Model model) {
         pagingDTO = new PagingDTO((Integer) param.get("page"));
 
-        Pagination pagination = new Pagination(boardService.boardCount(param), pagingDTO);
+        Pagination pagination = new Pagination(managementService.insaCount(params),pagingDTO);
 
-        List<BoardDTO> selectNoticeBoard = null;
-        model.addAttribute("boardList", selectNoticeBoard);
+
+        List<ManagementDTO> selectInsa = null;
+        model.addAttribute("insaList", selectInsa);
         model.addAttribute("pagination", pagination);
+        selectInsa = managementService.selectInsa(param);
 
-        selectNoticeBoard = boardService.selectNoticeBoard(param);
-
-        return boardService.selectNoticeBoard(param);
+        return managementService.selectInsa(param);
     }
 
     @RequestMapping("/insa") //인사관리 목록페이지
     public String insaPage(Model model , @RequestParam Map<String,Object> params) {
+
 
         if(params.get("page") != null) {
             pagingDTO = new PagingDTO(Integer.parseInt(params.get("page").toString()));
@@ -87,13 +88,25 @@ public class ManagementController {
             params.put("page",1);
         }
 
-        Pagination pagination2 = new Pagination(managementService.insaCount(params),pagingDTO);
+        params.put("pagemax",pagingDTO.getRecordSize());
+
+        Pagination pagination = new Pagination(managementService.insaCount(params),pagingDTO);
 
         List<ManagementDTO> selectInsa = managementService.selectInsa(params);
         model.addAttribute("insaList",selectInsa);
-        model.addAttribute("pagination",pagination2);
+        model.addAttribute("pagination",pagination);
 
         return "management/insa";
     }
+
+    /* 인사관리 목록 페이지 검색필터*/
+    @GetMapping("/searchFilter.do")
+    public String searchFilter(@RequestParam Map<String,Object> params,Model model) {
+
+        return "inoutRequest/modify/searchFilter";
+    }
+
+
+
 
 }

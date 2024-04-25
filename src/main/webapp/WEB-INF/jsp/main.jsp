@@ -85,7 +85,7 @@
                 <li>
                   <a href="staff">사원페이지</a>
                   <ul class="subMenu subMenu7">
-                    <li><a href="management/insa?pagenum=5&pagemax=10">경영정보</a></li>
+                    <li><a href="management/insa">경영정보</a></li>
                     <li><a href="approve">전자결재</a></li>
                     <li><a href="data">자료실</a></li>
                     <li><a href="saihanews">새하알리미</a></li>

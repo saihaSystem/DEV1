@@ -16,7 +16,7 @@ public class Pagination {
     private int limitStart;           // LIMIT 시작 위치
     private boolean existPrevPage;    // 이전 페이지 존재 여부
     private boolean existNextPage;    // 다음 페이지 존재 여부
-    private int pageNo; // 페이지 번호
+    private int pagenum; // 페이지 번호
 
     public Pagination(int totalRecordCount, PagingDTO params) {
         if (totalRecordCount > 0) {
