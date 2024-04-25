@@ -56,7 +56,7 @@
 
   <header class="header">
             <div class="head" id="head">
-              <div class="logo"><a href="/"><img src="/images/main_logo.png" /></a></div>
+              <div class="logo"><a href="/main"><img src="/images/main_logo.png" /></a></div>
               <div class="nav">
                 <ul>
                   <li>
