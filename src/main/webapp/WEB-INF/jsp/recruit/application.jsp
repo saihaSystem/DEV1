@@ -44,7 +44,7 @@
         <header class="header subHeader">
           <div class="head subHead" id="head">
             <div class="logo">
-              <a href="/"><img src="/images/main_logo.png" /></a>
+              <a href="/main"><img src="/images/main_logo.png" /></a>
             </div>
             <div class="nav">
               <ul>
