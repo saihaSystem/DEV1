@@ -6,7 +6,7 @@
 <%@ page import="com.saiha.saihaWeb.dto.*" %>
 
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/js/management.js"></script>
+<script></script>
 <html lang="ko">
 
   <style>
@@ -27,7 +27,7 @@
    			<li><a href="javascript:msg('education');">학력</a></li>
             <li><a href="javascript:msg('career')">경력</a></li>
             <li><a href="javascript:msg('license');">자격증</a></li>
-            <li><a href="javascript:" class="on"> 교육</a></li>
+            <li><a href="javascript:void(0)" class="on"> 교육</a></li>
    		</ul>
    	</div>
    	<table class="tbl_form" border="1" cellspacing="0" summary="">

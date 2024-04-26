@@ -165,7 +165,7 @@ public class ManagementController {
     }
 
 
-    @PutMapping("/managementUpdate")
+    @PostMapping("/managementUpdate")
     public String managementUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes){
 
         Map<String,Object> map = new HashMap<>();
@@ -196,7 +196,7 @@ public class ManagementController {
         map.put("SOLAR_CALENDAR_YN",request.getParameter("lunar"));
         map.put("jumin",request.getParameter("jumin_no"));
 
-
+        System.out.println(map);
 
         mo.managementUpdate(map);
 
@@ -206,23 +206,7 @@ public class ManagementController {
     }
 
     @PostMapping("/managementEducationUpdate")
-    public String managementEducationUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Map<String,Object> map = new HashMap<>();
-        System.out.println("ssss:   "+request.getParameter("enter_ymd"));
-
-        map.put("enter_ymd",request.getParameter("enter_ymd"));
-        map.put("graduation_ymd",request.getParameter("graduation_ymd"));
-        map.put("scho_code",request.getParameter("scho_code"));
-        map.put("major",request.getParameter("major"));
-        map.put("grad_div",request.getParameter("grad_div"));
-        map.put("degree",request.getParameter("degree"));
-        map.put("locate",request.getParameter("locate"));
-        map.put("minor",request.getParameter("minor"));
-        map.put("scho_nm",request.getParameter("scho_nm"));
-        map.put("jumin_no",request.getParameter("jumin_no"));
-        map.put("seq",request.getParameter("seq"));
-
-        System.out.println(map);
+    public String managementEducationUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes,@RequestParam Map<String,Object> map){
         mo.managementEducationUpdate(map);
 
         redirectAttributes.addAttribute("jumin_no",request.getParameter("jumin_no"));
@@ -232,20 +216,7 @@ public class ManagementController {
     }
 
     @PutMapping("/managementCareerUpdate")
-    public String managementCareerUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Map<String,Object> map = new HashMap<>();
-
-        map.put("ENTER_YMD",request.getParameter(""));
-        map.put("GRADUATION_YMD",request.getParameter(""));
-        map.put("SCHOOL_CODE",request.getParameter(""));
-        map.put("MAJOR",request.getParameter(""));
-        map.put("GRADUATION_CODE",request.getParameter(""));
-        map.put("DEGREE_CODE",request.getParameter(""));
-        map.put("LOCATION",request.getParameter(""));
-        map.put("MINOR",request.getParameter(""));
-        map.put("SCHOOL_NM",request.getParameter(""));
-        map.put("jumin",request.getParameter(""));
-        map.put("SEQ",request.getParameter(""));
+    public String managementCareerUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes,@RequestParam Map<String,Object> map){
 
         mo.managementCareerUpdate(map);
 
@@ -254,10 +225,8 @@ public class ManagementController {
     }
 
     @PutMapping("/managementLicenseUpdate")
-    public String managementLicenseUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Map<String,Object> map = new HashMap<>();
+    public String managementLicenseUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes,@RequestParam Map<String,Object> map){
 
-        map.put("","");
 
         mo.managementLicenseUpdate(map);
 
@@ -267,11 +236,7 @@ public class ManagementController {
     }
 
     @PutMapping("/managementEduUpdate")
-    public String managementEduUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes){
-
-        Map<String,Object> map = new HashMap<>();
-
-        map.put("","");
+    public String managementEduUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes ,@RequestParam Map<String,Object> map){
 
         mo.managementEduUpdate(map);
 

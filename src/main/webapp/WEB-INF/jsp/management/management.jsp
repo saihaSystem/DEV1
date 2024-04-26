@@ -6,7 +6,10 @@
 <%@ page import="com.saiha.saihaWeb.dto.*" %>
 
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/js/management.js"></script>
+<script src="/js/management.js">
+
+
+</script>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -160,7 +163,7 @@
     		<table class="tbl_form" border="1" cellspacing="0" summary="고객문의">
     	<div class="staff_tab" >
     		<ul>
-    			<li><a href="#"" class="on">기본</a></li>
+    			<li><a href="javascript:void(0)" class="on">기본</a></li>
     			<li><a href="javascript:msg('education');">학력</a></li>
     			<li><a href="javascript:msg('career');">경력</a></li>
     			<li><a href="javascript:msg('license');">자격증</a></li>
@@ -247,7 +250,7 @@
     			<th>팀명</th>
     			<td>
     				<label><select name='team' class="team" id= "${empty ManagemantDTO.get(0).TEAM_CODE ? '' : ManagemantDTO.get(0).TEAM_CODE}"  style="height:22px" >
-                                <option>-선택-</option>
+                                <option value="">-선택-</option>
     				</select></label>
                 </td>
     		</tr>
@@ -255,13 +258,13 @@
     			<th>직급</th>
     			<td>
     				<label><select name='level' class="level" id= "${empty ManagemantDTO.get(0).POSITION_CODE ? '' : ManagemantDTO.get(0).POSITION_CODE}" style="height:22px" >
-                                <option>-선택-</option>
+                                <option value="">-선택-</option>
     				</select></label>
                 </td>
     			<th>직위</th>
     			<td>
     				<label><select name='grade' class="grade" id= "${empty ManagemantDTO.get(0).ONE_DUTY_CODE ? '' : ManagemantDTO.get(0).ONE_DUTY_CODE}" style="height:22px" >
-                                <option>-선택-</option>
+                                <option value="">-선택-</option>
     				</select></label>
                 </td>
     		</tr>
@@ -269,13 +272,13 @@
     			<th>채용구분</th>
     			<td>
     				<label><select name='recruit' class="recruit" id= "${empty ManagemantDTO.get(0).EMPLOYMENT_CODE ? '' : ManagemantDTO.get(0).EMPLOYMENT_CODE}" style="height:22px" >
-                                <option>-선택-</option>
+                                <option value="" >-선택-</option>
     			</select></label>
                 </td>
     			<th>계약구분</th>
     			<td>
     				<label><select name="contract" class="contract" id= "${empty ManagemantDTO.get(0).CONTRACT_WORK_YN ? '' : ManagemantDTO.get(0).CONTRACT_WORK_YN}" style="height:22px" >
-                                <option>-선택-</option>
+                                <option value="">-선택-</option>
     				</select></label>
     			</td>
     		</tr>
@@ -331,13 +334,13 @@
     			    <c:choose>
                     <c:when test="${grade < 2000}">
                         <select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" disabled>
-                                    <option>-선택-</option>
+                                    <option value="">-선택-</option>
                         </select>
                         <input name='access' type="hidden" value="${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" >
                     </c:when>
                     <c:otherwise>
                         <select name='access' class="access" id= "${empty ManagemantDTO.get(0).GRADE_CODE ? '' : ManagemantDTO.get(0).GRADE_CODE}" style="height:22px" >
-                                    <option>-선택-</option>
+                                    <option value="">-선택-</option>
                         </select>
                     </c:otherwise>
                     </c:choose>

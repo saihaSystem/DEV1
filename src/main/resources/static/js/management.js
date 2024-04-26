@@ -1,17 +1,13 @@
 $(document).ready(function () {
       console.log("function success");
-      getSelect("PT1",$('.part').attr('id'));
-      getSelect("TE1",$('.team').attr('id'));
-      getSelect("LE1",$('.level').attr('id'));
-      getSelect("GD1",$('.grade').attr('id'));
-      getSelect("MI9",$('.recruit').attr('id'));
-      getSelect("CT1",$('.contract').attr('id'));
-      getSelect("GW1",$('.access').attr('id'));
 
-      getSelect("MI4",$('.grad_div').attr('id'));
-      getSelect("MI8",$('.locate').attr('id'));
-      getSelect("MI5",$('.degree').attr('id'));
-
+                getSelect("PT1",$('.part').attr('id'));
+                getSelect("TE1",$('.team').attr('id'));
+                getSelect("LE1",$('.level').attr('id'));
+                getSelect("GD1",$('.grade').attr('id'));
+                getSelect("MI9",$('.recruit').attr('id'));
+                getSelect("CT1",$('.contract').attr('id'));
+                getSelect("GW1",$('.access').attr('id'));s
 });
 
 function msg(path){
@@ -27,8 +23,6 @@ function msg(path){
   }else if(path == "edu"){
      $('#page').load('/management/management_ex4?juminNo='+$('.jumin_no').val());
   }
-
-
 }
 
 function getSelect(value,info){
@@ -247,41 +241,14 @@ function regist(num){
         document.fm.num_tel.value = $("input[name=phone_no1]").val()+"-"+$("input[name=phone_no2]").val()+"-"+$("input[name=phone_no3]").val()
         document.fm.hp_tel.value = $("input[name=cellphone_no1]").val()+"-"+$("input[name=cellphone_no2]").val()+"-"+$("input[name=cellphone_no3]").val()
         var queryString = $("form[name=fm]").serialize() ;
-        $.ajax({
-                 url: '/management/managementUpdate',
-                 type: "POST",
-                 data: JSON.stringify(queryString),
-                 dataType: "JSON",
-                 contentType: "application/json",
-                 accept: "application/json",
-                 success: function(result) {
-                          console.log(result);
-                          console.log("managementUpdate success");
-                 },
-                 error: function(result) {
-                       console.log("managementUpdate fail");
-                 }
-        });
+        document.fm.action = "/management/managementUpdate";
+        document.fm.method = "post";
+        document.fm.submit();
     }else if(num == "2"){
         document.fm.enter_ymd.value= document.fm.iyear.value+"-"+document.fm.imonth.value+"01";
         document.fm.graduation_ymd.value= document.fm.oyear.value+"-"+document.fm.omonth.value+"01";
         var queryString = $("form[name=fm]").serialize() ;
         console.log(queryString);
-//         $.ajax({
-//                 url: '/management/managementEducationUpdate',
-//                 type: "POST",
-//                 data: JSON.stringify(queryString),
-//                 dataType: "JSON",
-//                 contentType: "application/json; charset=utf-8",
-//                 accept: "application/json",
-//                 success: function(result) {
-//                          console.log(result);
-//                          console.log("managementEducationUpdate success");
-//                 },
-//                 error: function(result) {
-//                       console.log("managementEducationUpdate fail");
-//                 }
-//        });
         document.fm.action = "/management/managementEducationUpdate";
         document.fm.method = "post";
         document.fm.submit();

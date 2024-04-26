@@ -139,8 +139,7 @@
 
 
     <update id="managementUpdate" parameterType="map">
-              UPDATE INFORMATION                    "
-                 /* Insa_Base.updateTableINSA(String[], int, int) */
+              UPDATE INFORMATION
                     SET ( KOR_NAME, CHI_NAME, ENG_NAME
                         , JOIN_YMD, LEAVE_YMD, ZIPCODE, ADDRESS, FAMILY_REGISTER_ZIPCODE
                         , FAMILY_REGISTER_ADDRESS, JUMIN_ZIPCODE, JUMIN_ADDRESS, POSITION_YMD, DEPT_CODE
