@@ -240,13 +240,48 @@ function moveList(){
 }
 
 function regist(num){
+
+
+
     if(num == "1"){
-        document.fm.action = "/management/managementUpdate";
-        document.fm.method = "post";
-        document.fm.submit();
+        document.fm.num_tel.value = $("input[name=phone_no1]").val()+"-"+$("input[name=phone_no2]").val()+"-"+$("input[name=phone_no3]").val()
+        document.fm.hp_tel.value = $("input[name=cellphone_no1]").val()+"-"+$("input[name=cellphone_no2]").val()+"-"+$("input[name=cellphone_no3]").val()
+        var queryString = $("form[name=fm]").serialize() ;
+        $.ajax({
+                 url: '/management/managementUpdate',
+                 type: "POST",
+                 data: JSON.stringify(queryString),
+                 dataType: "JSON",
+                 contentType: "application/json",
+                 accept: "application/json",
+                 success: function(result) {
+                          console.log(result);
+                          console.log("managementUpdate success");
+                 },
+                 error: function(result) {
+                       console.log("managementUpdate fail");
+                 }
+        });
     }else if(num == "2"){
         document.fm.enter_ymd.value= document.fm.iyear.value+"-"+document.fm.imonth.value+"01";
         document.fm.graduation_ymd.value= document.fm.oyear.value+"-"+document.fm.omonth.value+"01";
+        var queryString = $("form[name=fm]").serialize() ;
+        console.log(queryString);
+//         $.ajax({
+//                 url: '/management/managementEducationUpdate',
+//                 type: "POST",
+//                 data: JSON.stringify(queryString),
+//                 dataType: "JSON",
+//                 contentType: "application/json; charset=utf-8",
+//                 accept: "application/json",
+//                 success: function(result) {
+//                          console.log(result);
+//                          console.log("managementEducationUpdate success");
+//                 },
+//                 error: function(result) {
+//                       console.log("managementEducationUpdate fail");
+//                 }
+//        });
         document.fm.action = "/management/managementEducationUpdate";
         document.fm.method = "post";
         document.fm.submit();

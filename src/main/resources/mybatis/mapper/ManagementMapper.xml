@@ -160,17 +160,23 @@
     </update>
     <update id="managementEducationUpdate" parameterType="map">
           UPDATE /*Insa_Scho.executeUpdate()*/ ACADEMIC
-            SET ENTER_YMD = #{ENTER_YMD},
-                GRADUATION_YMD = #{GRADUATION_YMD},
-                SCHOOL_CODE = #{SCHOOL_CODE},
-                MAJOR = #{MAJOR},
-                GRADUATION_CODE = #{GRADUATION_CODE},
-                DEGREE_CODE = #{DEGREE_CODE},
-                LOCATION = #{LOCATION},
-                MINOR = #{MINOR} ,
-                SCHOOL_NM = #{SCHOOL_NM}
-           WHERE JUMIN_NO = #{jumin}
-           AND SEQ = #{SEQ}
+            SET ENTER_YMD = #{enter_ymd},
+                GRADUATION_YMD = #{graduation_ymd},
+                SCHOOL_CODE = #{scho_code},
+                MAJOR = #{major},
+        <if test='grad_div !=null  and grad_div neq  ""'>
+                GRADUATION_CODE = #{grad_div},
+        </if>
+        <if test='degree !=null  and degree neq  ""'>
+                 DEGREE_CODE = #{degree},
+        </if>
+                LOCATION = #{locate},
+        <if test='minor !=null  and minor neq  ""'>
+                MINOR = #{minor} ,
+        </if>
+                SCHOOL_NM = #{scho_nm}
+           WHERE JUMIN_NO = #{jumin_no}
+           AND SEQ = #{seq}
 
     </update>
     <update id="managementCareerUpdate" parameterType="map">

@@ -51,20 +51,20 @@ public class ManagementService {
         return this.managementMapper.select_edu_list(jumin);
     }
 
-    public void managementUpdate(Map<String,String> map){
+    public void managementUpdate(Map<String,Object> map){
          this.managementMapper.managementUpdate(map);
     }
 
-    public void managementEducationUpdate(Map<String,String> map){
+    public void managementEducationUpdate(Map<String,Object> map){
         this.managementMapper.managementEducationUpdate(map);
     }
-    public void managementCareerUpdate(Map<String,String> map){
+    public void managementCareerUpdate(Map<String,Object> map){
         this.managementMapper.managementCareerUpdate(map);
     }
-    public void managementLicenseUpdate(Map<String,String> map){
+    public void managementLicenseUpdate(Map<String,Object> map){
         this.managementMapper.managementLicenseUpdate(map);
     }
-    public void managementEduUpdate(Map<String,String> map){
+    public void managementEduUpdate(Map<String,Object> map){
         this.managementMapper.managementEduUpdate(map);
     }
 
