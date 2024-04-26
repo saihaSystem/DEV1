@@ -7,7 +7,7 @@ $(document).ready(function () {
                 getSelect("GD1",$('.grade').attr('id'));
                 getSelect("MI9",$('.recruit').attr('id'));
                 getSelect("CT1",$('.contract').attr('id'));
-                getSelect("GW1",$('.access').attr('id'));s
+                getSelect("GW1",$('.access').attr('id'));
 });
 
 function msg(path){
