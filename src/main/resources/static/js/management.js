@@ -268,6 +268,41 @@ function regist(num){
 
 }
 
+function Delete(num){
+
+
+
+    if(num == "1"){
+        document.fm.num_tel.value = $("input[name=phone_no1]").val()+"-"+$("input[name=phone_no2]").val()+"-"+$("input[name=phone_no3]").val()
+        document.fm.hp_tel.value = $("input[name=cellphone_no1]").val()+"-"+$("input[name=cellphone_no2]").val()+"-"+$("input[name=cellphone_no3]").val()
+        var queryString = $("form[name=fm]").serialize() ;
+        document.fm.action = "/management/managementDelete";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "2"){
+        document.fm.enter_ymd.value= document.fm.iyear.value+"-"+document.fm.imonth.value+"01";
+        document.fm.graduation_ymd.value= document.fm.oyear.value+"-"+document.fm.omonth.value+"01";
+        var queryString = $("form[name=fm]").serialize() ;
+        console.log(queryString);
+        document.fm.action = "/management/managementEducationDelete";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "3"){
+        document.fm.action = "/management/managementCareerDelete";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "4"){
+        document.fm.action = "/management/managementLicenseDelete";
+        document.fm.method = "post";
+        document.fm.submit();
+    }else if(num == "5"){
+        document.fm.action = "/management/managementEduDelete";
+        document.fm.method = "post";
+        document.fm.submit();
+    }
+
+}
+
 
 function newCarlanderArrayById(obj) {
 

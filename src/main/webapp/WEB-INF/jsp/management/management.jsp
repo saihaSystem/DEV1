@@ -51,6 +51,10 @@
   }
    form {
      margin:0; padding:0;
+     width: 1900;
+   }
+   div{
+
    }
    li {
        display: inline-block;

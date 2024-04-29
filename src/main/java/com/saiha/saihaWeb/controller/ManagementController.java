@@ -215,7 +215,7 @@ public class ManagementController {
         return "redirect:/management/management?juminNo={jumin_no}";
     }
 
-    @PutMapping("/managementCareerUpdate")
+    @PostMapping("/managementCareerUpdate")
     public String managementCareerUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes,@RequestParam Map<String,Object> map){
 
         mo.managementCareerUpdate(map);
@@ -224,7 +224,7 @@ public class ManagementController {
         return "redirect:/management/management?juminNo={jumin_no}";
     }
 
-    @PutMapping("/managementLicenseUpdate")
+    @PostMapping("/managementLicenseUpdate")
     public String managementLicenseUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes,@RequestParam Map<String,Object> map){
 
 
@@ -235,7 +235,7 @@ public class ManagementController {
         return "redirect:/management/management?juminNo={jumin_no}";
     }
 
-    @PutMapping("/managementEduUpdate")
+    @PostMapping("/managementEduUpdate")
     public String managementEduUpdate(HttpServletRequest request, RedirectAttributes redirectAttributes ,@RequestParam Map<String,Object> map){
 
         mo.managementEduUpdate(map);
@@ -243,6 +243,11 @@ public class ManagementController {
         redirectAttributes.addAttribute("jumin_no",request.getParameter("jumin_no"));
         return "redirect:/management/management?juminNo={jumin_no}";
     }
+
+
+
+
+
 
     // AJAX
     @ResponseBody

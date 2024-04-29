@@ -180,34 +180,69 @@
     </update>
     <update id="managementCareerUpdate" parameterType="map">
           UPDATE CAREER
-             SET JOIN_YMD = #{JOIN_YMD},
-                 LEAVE_YMD = #{LEAVE_YMD},
-                 DEPT_NM = #{DEPT_NM},
-                 POSITION = #{POSITION},
-                 ONE_DUTY = #{ONE_DUTY}
+             SET
+        <if test='date1 !=null  and date1 neq  ""'>
+                  JOIN_YMD = #{date1},
+        </if>
+        <if test='date2 !=null  and date2 neq  ""'>
+                 LEAVE_YMD = #{date2},
+        </if>
+        <if test='dept_nm !=null  and dept_nm neq  ""'>
+                 DEPT_NM = #{dept_nm},
+        </if>
+        <if test='position !=null  and position neq  ""'>
+                 POSITION = #{position},
+        </if>
+        <if test='one_duty !=null  and one_duty neq  ""'>
+                 ONE_DUTY = #{one_duty}
+        </if>
            WHERE JUMIN_NO = #{jumin} AND CAREER_STEP = #{CAREER_STEP}
 
     </update>
 
     <update id="managementLicenseUpdate" parameterType="map">
           UPDATE LICENSE
-          SET   GAIN_YMD       = #{GAIN_YMD}
-               ,LICENSE_GRADE  = #{LICENSE_GRADE}
-               ,LICENSE_NO     = #{LICENSE_NO}
-               ,LICENSE_NM     = #{LICENSE_NM}
-               ,SEND_DEPT_NM   = #{SEND_DEPT_NM}
+          SET
+        <if test='date1 !=null  and date1 neq  ""'>
+                GAIN_YMD       = #{GAIN_YMD},
+        </if>
+        <if test='cert_level !=null  and cert_level neq  ""'>
+               LICENSE_GRADE  = #{cert_level},
+        </if>
+        <if test='cert_num !=null  and cert_num neq  ""'>
+               LICENSE_NO     = #{cert_num},
+        </if>
+        <if test='cert_name !=null  and cert_name neq  ""'>
+               LICENSE_NM     = #{cert_name},
+        </if>
+        <if test='publish !=null  and publish neq  ""'>
+               SEND_DEPT_NM   = #{publish}
+        </if>
           WHERE JUMIN_NO=#{jumin} AND LICENSE_SEQ=#{LICENSE_SEQ}
 
     </update>
 
     <update id="managementEduUpdate" parameterType="map">
           UPDATE education
-             SET EDU_NAME = #{EDU_NAME},
-                 EDU_NUM = #{EDU_NUM},
-                 START_YMD = #{START_YMD},
-                 END_YMD = #{END_YMD},
-                 EDU_AGCY = #{EDU_AGCY},
-                 GAIN_YMD = #{GAIN_YMD}
+             SET
+        <if test='edu_name !=null  and edu_name neq  ""'>
+                 EDU_NAME = #{edu_name},
+        </if>
+        <if test='edu_num !=null  and edu_num neq  ""'>
+                 EDU_NUM = #{edu_num},
+        </if>
+        <if test='date1 !=null  and date1 neq  ""'>
+                 START_YMD = #{date1},
+        </if>
+        <if test='date2 !=null  and date2 neq  ""'>
+                 END_YMD = #{date2},
+        </if>
+        <if test='edu_agcy !=null  and edu_agcy neq  ""'>
+                 EDU_AGCY = #{edu_agcy},
+        </if>
+        <if test='date3 !=null  and date3 neq  ""'>
+                 GAIN_YMD = #{date3}
+        </if>
            WHERE jumin_no = #{jumin] AND edu_seq = #{edu_seq}
 
     </update>
