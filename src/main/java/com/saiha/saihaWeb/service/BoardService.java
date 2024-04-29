@@ -26,4 +26,16 @@ public class BoardService {
 
         return boardMapper.boardCount(param);
     }
+
+    public int selectNoticeBoardCnt(Map<String, Object> param) {
+        return boardMapper.selectNoticeBoardCnt(param);
+    }
+
+    public List<BoardDTO> selectGalleryBoard(Map<String, Object> param) {
+        return boardMapper.selectGalleryBoard(param);
+    }
+
+    public int selectGalleryBoardCnt(Map<String, Object> param) {
+        return boardMapper.selectGalleryBoardCnt(param);
+    }
 }

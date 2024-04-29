@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.AssetMapper">
+    <select id="selectAssetList" resultType="AssetDTO" parameterType="map">
+        <![CDATA[
+            SELECT
+              RESOURCE_ID, NAME    ,ND_KIND
+                , MODEL,  BUY_DATE , DUAL, SERIAL, SPEC, CONSUM, ETC, GUBUN ,N , HAS_FILE_YN, RESO_NO, RES_UES_TYPE, USE_TOTAL_MONTH, USE_DATE_YEAR, USE_DATE_MONTH  , DATA_FLAG, ASSET_NO
+           FROM (SELECT   RESOURCE_ID, NAME,  ND_KIND, MODEL, TO_CHAR(BUY_DATE, 'YYYY-MM-DD') BUY_DATE
+                    , DUAL, SERIAL, SPEC, CONSUM, ETC, GUBUN, ROWNUM N
+                    , HAS_FILE_YN, RESO_NO, RES_UES_TYPE, USE_TOTAL_MONTH, USE_DATE_YEAR, USE_DATE_MONTH , DATA_FLAG, ASSET_NO
+                FROM   ( SELECT  RESOURCE_ID, Name
+                      , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'PC1' AND CODE = ND_KIND ) ND_KIND
+                      , MODEL, BUY_DATE , DUAL, SERIAL, SPEC, CONSUM, ETC
+                      , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'PG1' AND CODE = GUBUN ) GUBUN
+                      , HAS_FILE_YN, RESO_NO
+                      , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'RVT' AND CODE = RES_UES_TYPE ) RES_UES_TYPE
+                      , TRUNC (MONTHS_BETWEEN (SYSDATE, BUY_DATE)) USE_TOTAL_MONTH
+                      , TRUNC(MONTHS_BETWEEN(SYSDATE, BUY_DATE)/12) USE_DATE_YEAR
+                      , TRUNC(MOD(MONTHS_BETWEEN(SYSDATE, BUY_DATE),12)) USE_DATE_MONTH , DATA_FLAG, NVL(ASSET_NO,' ') AS ASSET_NO
+                        FROM RESO_MAST
+                        WHERE 1=1
+                        AND FLAG='T' /*삭제여부 T,F*/
+        ]]>
+        /*검색 조건 추가 */
+        <if test="ndKind != null and ndKind != ''" >
+            <![CDATA[
+            AND ND_KIND = #{ndKind}
+        ]]>
+        </if>
+        <if test="gubun != null and gubun != ''" >
+            <![CDATA[
+            AND GUBUN = #{gubun}
+        ]]>
+        </if>
+        <if test="resUseType != null and resUseType != ''" >
+            <![CDATA[
+            AND RES_UES_TYPE = #{resUseType}
+        ]]>
+        </if>
+        <if test="dataFlag != null and dataFlag != ''" >
+            <![CDATA[
+            AND DATA_FLAG = #{dataFlag}
+        ]]>
+        </if>
+        <if test="startDate != null and startDate != ''" >
+            <![CDATA[
+            AND BUY_DATE >= #{startDate}
+        ]]>
+        </if>
+        <if test="endDate != null and endDate != ''" >
+            <![CDATA[
+            AND BUY_DATE <= #{endDate}
+        ]]>
+        </if>
+        <if test="selStr != null and selStr !=''" >
+            <choose>
+                <when test="selType.equals('n'.toString())">
+                    <![CDATA[
+                    AND UPPER(NAME)  LIKE UPPER('%'||#{selStr}||'%')
+                    ]]>
+                </when>
+                <when test="selType.equals('m'.toString())">
+                    <![CDATA[
+                    AND UPPER(MODEL)  LIKE UPPER('%'||#{selStr}||'%')
+                    ]]>
+                </when>
+            </choose>
+        </if>
+        <![CDATA[
+                    AND DATA_FLAG = 'N' /*신구자료 N,O*/
+                    ORDER BY ASSET_NO DESC, BUY_DATE DESC)
+                )
+                 WHERE
+                    N BETWEEN (((#{page} - 1) * 10)+1) and (#{page} * 10)
+        ]]>
+    </select>
+
+    <select id="assetCount" resultType="int" parameterType="map">
+        <![CDATA[
+         SELECT   COUNT(*)
+            FROM   RESO_MAST
+            WHERE 1=1
+                AND FLAG='T'
+                AND DATA_FLAG = 'N'
+         ]]>
+        <if test="ndKind != null and ndKind != ''" >
+            <![CDATA[
+            AND ND_KIND = #{ndKind}
+        ]]>
+        </if>
+        <if test="gubun != null and gubun != ''" >
+            <![CDATA[
+            AND GUBUN = #{gubun}
+        ]]>
+        </if>
+        <if test="resUseType != null and resUseType != ''" >
+            <![CDATA[
+            AND RES_UES_TYPE = #{resUseType}
+        ]]>
+        </if>
+        <if test="dataFlag != null and dataFlag != ''" >
+            <![CDATA[
+            AND DATA_FLAG = #{dataFlag}
+        ]]>
+        </if>
+        <if test="startDate != null and startDate != ''" >
+            <![CDATA[
+            AND BUY_DATE >= #{startDate}
+        ]]>
+        </if>
+        <if test="endDate != null and endDate != ''" >
+            <![CDATA[
+            AND BUY_DATE <= #{endDate}
+        ]]>
+        </if>
+        <if test="selStr != null and selStr !=''" >
+            <choose>
+                <when test="selType.equals('n'.toString())">
+                    <![CDATA[
+                    AND UPPER(NAME)  LIKE UPPER('%'||#{selStr}||'%')
+                    ]]>
+                </when>
+                <when test="selType.equals('m'.toString())">
+                    <![CDATA[
+                    AND UPPER(MODEL)  LIKE UPPER('%'||#{selStr}||'%')
+                    ]]>
+                </when>
+            </choose>
+        </if>
+    </select>
+    <select id="selectAssetDetail" resultType="AssetDTO" >
+        <![CDATA[
+        SELECT
+            T1.RESOURCE_ID,T1.NAME, T1.ND_KIND, T1.GUBUN
+          , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'PC1' AND CODE = T1.ND_KIND ) ND_KIND_NM
+          , MODEL, TO_CHAR(T1.BUY_DATE, 'YYYY-MM-DD') BUY_DATE, T1.DUAL, T1.SERIAL, T1.SPEC, T1.CONSUM, T1.ETC, T1.ENO
+          , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'PG1' AND CODE = T1.GUBUN ) GUBUN_NM    , T1.HAS_FILE_YN
+          , T2.FILE_ID, T2.FILE_NAME, T2.FILE_PATH, T2.FILE_SIZE, T1.RESO_NO ,T1.RES_UES_TYPE
+          , (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'RVT' AND CODE = T1.RES_UES_TYPE ) RES_UES_TYPE_NM , lpad(T1.RESOURCE_ID,4,0)RESOURCE_ID_NM
+              , TRUNC(MONTHS_BETWEEN(SYSDATE, T1.BUY_DATE)/12) USE_DATE_YEAR
+              , TRUNC(MOD(MONTHS_BETWEEN(SYSDATE, T1.BUY_DATE),12)) USE_DATE_MONTH, T1.DATA_FLAG, NVL(T1.ASSET_NO,' ') AS ASSET_NO
+     FROM RESO_MAST T1, PCFILE T2
+     WHERE  1=1
+     AND T1.RESOURCE_ID = #{UserID}
+     AND  T1.RESOURCE_ID = T2.RESOURCE_ID(+)
+    ]]>
+    </select>
+    <select id="PC1GubunCode" resultType="CodeDTO">
+        <![CDATA[
+          SELECT CODE_NM,CODE FROM COMMON WHERE CODE_GUBUN = 'PC1' AND USE_YN = 'Y'
+        ]]>
+    </select>
+    <select id="PG1GubunCode" resultType="CodeDTO">
+        <![CDATA[
+          SELECT CODE_NM,CODE FROM COMMON WHERE CODE_GUBUN = 'PG1' AND USE_YN = 'Y'
+        ]]>
+    </select>
+    <select id="RVTGubunCode" resultType="CodeDTO">
+        <![CDATA[
+          SELECT CODE_NM,CODE FROM COMMON WHERE CODE_GUBUN = 'RVT' AND USE_YN = 'Y'
+        ]]>
+    </select>
+    <select id="PC3GubunCode" resultType="CodeDTO">
+        <![CDATA[
+          SELECT CODE_NM,CODE FROM COMMON WHERE CODE_GUBUN = 'PC3' AND USE_YN = 'Y'
+        ]]>
+    </select>
+    <select id="selectSearchStaff" resultType="map" parameterType="map">
+        <![CDATA[
+          SELECT T2.ID AS ID, T2.NAME AS NAME
+          FROM USE T2, INFORMATION T1
+          WHERE 1=1
+          AND T2.ID = T1.ID
+          AND T1.LEAVE_YMD is NULL
+          AND UPPER(NAME) LIKE UPPER('%'||#{memberName}||'%')
+          ORDER BY NAME ASC
+        ]]>
+    </select>
+
+    <insert id="registerPc" parameterType="map">
+        <![CDATA[
+             INSERT INTO RESO_MAST
+                (RESOURCE_ID, NAME, ND_KIND, MODEL, BUY_DATE, DUAL, SERIAL, SPEC,
+                CONSUM, ETC, ENO, GUBUN, HAS_FILE_YN, RESOURCE_TYPE,  RES_UES_TYPE, FLAG , DATA_FLAG, ASSET_NO )
+            VALUES
+                ((SELECT (NVL(MAX(TO_NUMBER(RESOURCE_ID)),0)+1) FROM RESO_MAST), #{contactNm}, #{ndKind}, #{model},
+                TO_DATE(#{buyDate},'YYYYMMDD HH24:MI:SS'),'', #{serial}, #{spec},
+                #{consum}, #{etc}, #{contactEno}, #{gubun}, 'N', '01', #{resUseType}, 'T', #{dataFlag}, #{assetNo}
+                )
+        ]]>
+    </insert>
+
+    <select id="selectAssetHistory" resultType="AssetDTO">
+
+        <![CDATA[
+         SELECT
+              HISTORY_ID, RESOURCE_ID, ENO,
+              SORTATION, CHANGE_HISTORY, TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE, DEL_YN, TO_CHAR(CHANGE_DATE, 'YYYY-MM-DD') AS CHANGE_DATE,
+             (SELECT CODE_NM FROM COMMON WHERE CODE_GUBUN = 'PC2' AND CODE = T1.SORTATION ) AS SORTATION_NM ,
+             TO_DATE(TO_CHAR(REG_DATE+7, 'YYYYMMDD')) - TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) AS DEL_DATE_CHECK,
+             NVL(CONTACT_NAME, '') AS CONTACT_NAME , CONTACT_ENO
+         FROM RESO_MAST_HISTORY T1
+             WHERE 1=1
+             AND RESOURCE_ID = #{resourceId}
+             AND DEL_YN = 'N'
+             ORDER BY CHANGE_DATE ASC, TO_NUMBER(HISTORY_ID) ASC
+        ]]>
+    </select>
+    <select id="HistoryGubunCode" resultType="CodeDTO">
+        <![CDATA[
+          SELECT CODE_NM,CODE FROM COMMON WHERE CODE_GUBUN = 'PC2' AND USE_YN = 'Y'
+        ]]>
+    </select>
+    <select id="SelectSabun" resultType="EmpDTO">
+        <![CDATA[
+          SELECT T2.ID AS ID, T2.NAME AS NAME
+          FROM INFORMATION T1, USE T2
+          WHERE 1=1
+          AND T2.ID = T1.ID
+          AND T1.LEAVE_YMD is NULL
+          ORDER BY T2.NAME
+        ]]>
+    </select>
+    <select id="SelectHistoryId" resultType="AssetDTO">
+        <![CDATA[
+          SELECT NVL(MAX(TO_NUMBER(history_id)),0)+1 AS history_id
+            FROM RESO_MAST_HISTORY
+            WHERE resource_id = #{resourceId}
+        ]]>
+    </select>
+    <select id="SelectSearchSabun" resultType="EmpDTO">
+        <![CDATA[
+          SELECT T2.ID AS ID, T2.NAME AS NAME
+          FROM INFORMATION T1, USE T2
+          WHERE 1=1
+          AND T2.ID = T1.ID
+          AND T1.LEAVE_YMD is NULL
+        ]]>
+        <if test="searchNm != null and searchNm !=''">
+            <![CDATA[
+            AND T2.NAME LIKE UPPER('%#{searchNm}%')
+            ]]>
+        </if>
+        <![CDATA[
+        ORDER BY T2.NAME
+        ]]>
+    </select>
+    <insert id="insertHistory" parameterType="AssetDTO">
+        <![CDATA[
+            INSERT INTO RESO_MAST_HISTORY
+            ( HISTORY_ID, RESOURCE_ID, ENO,  SORTATION, CHANGE_HISTORY,  CHANGE_DATE , DEL_YN , REG_DATE , CONTACT_NAME, CONTACT_ENO )
+             VALUES
+             (#{historyId},#{resourceId},#{contactEno},#{sortation},#{changeHistory}, TO_DATE(#{changeDate},'YYYY-MM-DD'),'N',SYSDATE,
+              #{name}, #{contactEno})
+        ]]>
+    </insert>
+    <update id="DelHistory" >
+        <![CDATA[
+            UPDATE RESO_MAST_HISTORY SET DEL_YN='Y'
+             WHERE HISTORY_ID=#{historyId} AND RESOURCE_ID=#{resourceId}
+        ]]>
+    </update>
+    <update id="doModify">
+        <![CDATA[
+             UPDATE RESO_MAST
+                SET NAME=#{name}, ND_KIND = #{ndKind}, MODEL=#{model}, BUY_DATE=TO_DATE(#{buyDate},'YYYYMMDD HH24:MI:SS'), DUAL='',
+                    SERIAL=#{serial}, SPEC=#{spec}, CONSUM=#{consum}, ETC=#{etc}, GUBUN=#{gubun}, ENO = #{contactEno},
+                    HAS_FILE_YN='N',  RES_UES_TYPE= #{resUseType} , DATA_FLAG = #{dataFlag} , ASSET_NO = #{assetNo}
+                WHERE RESOURCE_ID = #{resourceId}
+        ]]>
+    </update>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="home.tiles" template="/WEB-INF/jsp/templates/layout.jsp">
+        <put-attribute name="title" value="KDG_Web"/>
+        <put-attribute name="header" value="/WEB-INF/jsp/templates/header.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/home.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/templates/footer.jsp"/>
+    </definition>
+
+    <definition name="*.tiles" extends="home.tiles">
+        <put-attribute name="title" value="새하정보시스템"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp"/>
+    </definition>
+
+    <definition name="*/*.tiles" extends="home.tiles">
+        <put-attribute name="title" value="새하정보시스템"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp"/>
+    </definition>
+    <definition name="*/*/*.tiles" extends="home.tiles">
+        <put-attribute name="title" value="새하정보시스템"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp"/>
+    </definition>
+    <definition name="empty.tiles" template="/WEB-INF/jsp/layout/empty.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="" />
+        <put-attribute name="footer" value="" />
+        <put-attribute name="body" value="/WEB-INF/jsp/asset/emp_list.jsp"/>
+    </definition>
+    <definition name="asset/emp_list.tiles" extends="empty.tiles">
+        <put-attribute name="body" value="/WEB-INF/jsp/asset/emp_list.jsp"/>
+    </definition>
+    <definition name="asset/approval.tiles" extends="empty.tiles">
+        <put-attribute name="body" value="/WEB-INF/jsp/asset/approval.jsp"/>
+    </definition>
+</tiles-definitions>

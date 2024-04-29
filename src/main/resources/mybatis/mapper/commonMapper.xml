@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.saiha.saihaWeb.mapper.CommonMapper">
+
+    <select id="firstBizplc" resultType="map" parameterType="map">
+        SELECT FST_BIZPLC_CD,FST_BIZPLC_CDNM  FROM T_CO_CMM_C_BIZPLC_CD tcccbc WHERE FST_BIZPLC_CDNM NOT LIKE '%변전' and (SCD_BIZPLC_CD IS NULL OR FST_BIZPLC_CD = '7790') ORDER BY SORT_CD
+    </select>
+
+</mapper>

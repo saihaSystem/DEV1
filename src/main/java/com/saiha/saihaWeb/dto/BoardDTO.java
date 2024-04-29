@@ -42,4 +42,10 @@ public class BoardDTO {
 
     public String recentFlg;
 
+    public String fileId;
+
+    public String rpCnt;
+
+    public String test_ess;
+
 }

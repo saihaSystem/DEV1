@@ -48,7 +48,7 @@ public class ManagementController {
         System.out.println(vl.get(0).get("DEPT_CODE"));
 
 
-        return "management/management";
+        return "management/management.tiles";
     }
 
     @ResponseBody
@@ -74,7 +74,7 @@ public class ManagementController {
             vlist.add(0,null);
         }
 
-        return "management/management_ex";
+        return "management/management_ex.tiles";
     }
 
     @ResponseBody
@@ -248,7 +248,6 @@ public class ManagementController {
 
 
 
-
     // AJAX
     @ResponseBody
     @PostMapping("/pagination")
@@ -285,7 +284,7 @@ public class ManagementController {
         model.addAttribute("insaList",selectInsa);
         model.addAttribute("pagination",pagination);
 
-            return "management/insa";
+            return "management/insa.tiles";
     }
 
     /* 인사관리 목록 페이지 검색필터*/

@@ -10,4 +10,10 @@ import java.util.Map;
 public interface BoardMapper {
     List<BoardDTO> selectNoticeBoard(Map<String, Object> param);
     int boardCount(Map<String, Object> param);
+    int selectNoticeBoardCnt(Map<String, Object> param);
+
+    List<BoardDTO> selectGalleryBoard(Map<String, Object> param);
+
+    int selectGalleryBoardCnt(Map<String, Object> param);
+
 }

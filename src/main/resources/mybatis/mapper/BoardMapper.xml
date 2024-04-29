@@ -38,7 +38,18 @@
                     AND
                         DELYN <> 'Y'
                     AND
-                        BRD_DEPTH= 0
+                        BRD_NO NOT IN (
+                            SELECT
+                                S1.BRD_NO
+                            FROM
+                                BOARD S1
+                            WHERE
+                                S1.BRD_GUBUN= #{brdGubun}
+                            AND
+                                S1.BRD_DEPTH= 0
+                            AND
+                                S1.DELYN = 'Y'
+                        )
                     ORDER BY
                         REGIST_YMD desc ,
                         BRD_NO desc ,
@@ -46,23 +57,49 @@
                 )
             )
             WHERE
-                N BETWEEN (((#{page} - 1) * 5)+1) and (#{page} * 5)
+                N BETWEEN (((1 - 1) * 10)+1) and (1 * 5)
         ]]>
     </select>
 
-
-    <select id="boardCount" resultType="int" parameterType="map">
+    <select id="selectGalleryBoard" resultType="BoardDTO" parameterType="map">
         <![CDATA[
-            SELECT
-                COUNT(*)
-            FROM
-                BOARD
-            WHERE
-                BRD_GUBUN = #{brdGubun}
-            AND
-                DELYN <> 'Y'
-            and
-                BRD_DEPTH= 0
+            SELECT *
+              FROM ( SELECT BRD_GUBUN, BRD_NO, BRD_DEPTH, REPLE_STEP, ID
+                           , NAME, TITLE, MAIL, CONTENTS, HAS_FILE_YN
+                           , PWD, VIEWCNT, REGIST_YMD, EDITYMD, DELYN, FILE_ID, RP_CNT
+                           , ROWNUM N
+                        FROM ( SELECT A.BRD_GUBUN, A.BRD_NO, A.BRD_DEPTH, A.REPLE_STEP, ID
+                                    , NAME, TITLE, MAIL, CONTENTS, HAS_FILE_YN
+                                    , PWD, VIEWCNT, REGIST_YMD, EDITYMD, DELYN, FILE_ID
+                                    , (SELECT COUNT(*) FROM GALLERY_RP WHERE BRD_GUBUN = A.BRD_GUBUN AND BRD_NO = A.BRD_NO) RP_CNT
+                                 FROM GALLERY A, GALLERYFILE B
+                                WHERE A.BRD_GUBUN  = B.BRD_GUBUN(+)
+                                  AND A.BRD_NO     = B.BRD_NO(+)
+                                  AND A.BRD_DEPTH  = B.BRD_DEPTH(+)
+                                  AND A.REPLE_STEP = B.REPLE_STEP(+)
+                                  AND A.BRD_GUBUN  = #{brdGubun}
+                                  AND DELYN <> 'Y'
+                                  AND A.BRD_NO NOT IN
+                                        ( SELECT S1.BRD_NO
+                                            FROM GALLERY S1
+                                           WHERE S1.BRD_GUBUN = #{brdGubun}
+                                             AND S1.BRD_DEPTH = 0
+                                             AND S1.DELYN  = 'Y' )
+                                ORDER BY BRD_NO desc, REPLE_STEP asc)
+             )
+             WHERE
+                N BETWEEN (((1 - 1) * 10)+1) and (1 * 3)
+        ]]>
+    </select>
+
+    <select id="selectNoticeBoardCnt" resultType="Integer" parameterType="map">
+        <![CDATA[ SELECT COUNT(*) + 1 FROM BOARD A WHERE BRD_GUBUN= #{brdGubun} AND DELYN <> 'Y' ]]>
+    </select>
+
+
+    <select id="selectGalleryBoardCnt" resultType="BoardDTO" parameterType="map">
+        <![CDATA[
+            SELECT * FROM GALLERY A  WHERE A.BRD_GUBUN  = '77'AND DELYN <> 'Y' AND BRD_DEPTH = 0
         ]]>
     </select>
 
